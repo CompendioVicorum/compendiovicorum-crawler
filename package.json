@@ -1,0 +1,20 @@
+{
+  "name": "compendiovicorum-crawler",
+  "version": "0.1.0",
+  "description": "A crawler that reads all the 'comune' info from italian Wikipedia.",
+  "main": "index.js",
+  "dependencies": {
+    "async": "^0.9.0",
+    "jquery": "^2.1.3",
+    "mongodb": "^1.4.30",
+    "nodemw": "^0.4.1",
+    "string": "^3.0.0"
+  },
+  "devDependencies": {},
+  "author": {
+	name: "Davide Pastore",
+	email: "pasdavide@gmail.com"
+  },
+  "engine": "node >= 0.10",
+  "license": "GPL-2.0"
+}
