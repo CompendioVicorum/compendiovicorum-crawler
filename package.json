@@ -12,8 +12,8 @@
   },
   "devDependencies": {},
   "author": {
-	name: "Davide Pastore",
-	email: "pasdavide@gmail.com"
+	"name": "Davide Pastore",
+	"email": "pasdavide@gmail.com"
   },
   "engine": "node >= 0.10",
   "license": "GPL-2.0"
