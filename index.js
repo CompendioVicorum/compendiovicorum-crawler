@@ -55,7 +55,7 @@ MongoClient.connect(url, function(err, db) {
 		},
 		function (data, callback) {
 			//Iterate over lists
-			async.eachSeries(data, function (comuniList, seriesCallback) {
+			async.each(data, function (comuniList, seriesCallback) {
 				var title = comuniList.title;
 				var params = {
 					action:	'parse',
@@ -83,7 +83,7 @@ MongoClient.connect(url, function(err, db) {
 						tr.push(element);
 					});
 					
-					async.eachSeries(tr, function(element, seriesCallback2) {
+					async.each(tr, function(element, seriesCallback2) {
 						var comunePage = $(element).find("td a").attr('title');
 						if(comunePage){
 							var params = {
