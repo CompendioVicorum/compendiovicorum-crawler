@@ -1,6 +1,6 @@
 {
   "name": "compendiovicorum-crawler",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A crawler that reads all the 'comune' info from italian Wikipedia.",
   "repository": "CompendioVicorum/compendiovicorum-crawler",
   "main": "app.js",
