@@ -9,7 +9,7 @@ $ npm install compendiovicorum-crawler
 
 ## Usage
 
-Start your MongoDB server and `config.js` file.
+Start your MongoDB server and edit `config.js` file.
 Then you could run:
 
 ```bash
