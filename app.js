@@ -86,41 +86,8 @@ MongoClient.connect(url, function(err, db) {
 					async.each(tr, function(element, seriesCallback2) {
 						var comunePage = $(element).find("td a").attr('title');
 						if(comunePage){
-							var params = {
-								action:	'parse',
-								page:	comunePage,
-								format:	'json',
-								prop:	'text'
-							};
-							
 							console.log("Loading '" + comunePage + "'");
-							
-							client.api.call(params, function(err, info, next, data) {
-								// error handling
-								if (err) {
-								  console.error(err);
-								  seriesCallback2(null);
-								  return;
-								}
-								
-								//Load all the info about the comuni
-								var comune = loadComuneInfo(data);
-								
-								var criteria = {
-									nome: comune.nome,
-									provincia: comune.provincia
-								};
-								
-								//Replace the element if exists, otherwise insert a new one
-								collection.update(criteria, comune, {upsert: true}, function(err, result) {
-									if(err){
-										console.log("Error: ", err);
-									} else{
-										//console.log("Element inserted");
-									}
-									seriesCallback2(null);
-							    });
-							});
+							callApiForComune(comunePage, seriesCallback2, collection);
 						}
 						else{
 							seriesCallback2(null);
@@ -145,6 +112,49 @@ MongoClient.connect(url, function(err, db) {
 		}
 	);
 });
+
+
+/**
+ * Call api for comune.
+ * @param comunePage The comune page.
+ * @param seriesCallback The series callback.
+ * @param collection The collection that contains the data.
+ */
+function callApiForComune(comunePage, seriesCallback, collection){
+    var params = {
+        action:	'parse',
+        page:	comunePage,
+        format:	'json',
+        prop:	'text'
+    };
+    client.api.call(params, function(err, info, next, data) {
+        // error handling
+        if (err) {
+          console.error(err);
+          console.log("Recalling for comune: ", comunePage);
+          callApiForComune(comunePage, seriesCallback);
+          return;
+        }
+        
+        //Load all the info about the comuni
+        var comune = loadComuneInfo(data);
+        
+        var criteria = {
+            nome: comune.nome,
+            provincia: comune.provincia
+        };
+        
+        //Replace the element if exists, otherwise insert a new one
+        collection.update(criteria, comune, {upsert: true}, function(err, result) {
+            if(err){
+                console.log("Error: ", err);
+            } else{
+                //console.log("Element inserted");
+            }
+            seriesCallback(null);
+        });
+    });
+}
 
 /**
  * Load the comuni info.
