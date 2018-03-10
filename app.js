@@ -171,7 +171,7 @@ function loadComuneInfo(data){
 	console.log("Parsing info of '" + comune.nome + "'");
 	
 	$ = cheerio.load(html);
-	$("table.sinottico > tr").each(function(index, element){
+	$("table.sinottico > tbody > tr").each(function(index, element){
 		var th = $(element).find("th");
 		var td = $(element).find("td");
 		var thText = th.text();
@@ -227,7 +227,7 @@ function loadComuneInfo(data){
 		} else if(thText == "Abitanti"){
 			comune.abitanti = utils.removeParenthesis(tdText);
 			comune.censimento = utils.getParenthesisContent(tdText);
-		} else if(thText == "Densità"){
+		} else if(thText == "Densitï¿½"){
 			comune.densita = tdText;
 		} else if(thText == "Frazioni"){
 			comune.frazioni = [];
