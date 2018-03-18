@@ -30,7 +30,7 @@ url += mongodb.server + ':' + mongodb.port + '/' + mongodb.database;
 MongoClient.connect(url, function(err, db) {
 	if(err){
 		console.log("Error connecting to server");
-		return;
+		process.exit(1);
 	} else {
 		console.log("Connected correctly to server");
 	}
@@ -106,8 +106,10 @@ MongoClient.connect(url, function(err, db) {
 			if(err){
 				console.error('ERR');
 				console.error(err);
+				process.exit(1);
 			} else {
 				console.log('Operation completed');
+				process.exit(0);
 			}
 		}
 	);
