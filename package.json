@@ -9,7 +9,8 @@
     "cheerio": "^0.20.0",
     "mongodb": "^2.0.0",
     "nodemw": "^0.7.5",
-    "string": "^3.0.0"
+    "string": "^3.0.0",
+    "snyk": "^1.192.3"
   },
   "devDependencies": {},
   "author": {
@@ -24,5 +25,10 @@
     "config.js",
     "utils.js"
   ],
-  "license": "GPL-2.0"
+  "license": "GPL-2.0",
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
