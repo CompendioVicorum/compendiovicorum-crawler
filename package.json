@@ -10,7 +10,7 @@
     "mongodb": "^2.0.0",
     "nodemw": "^0.7.5",
     "string": "^3.0.0",
-    "snyk": "^1.231.0"
+    "snyk": "^1.317.0"
   },
   "devDependencies": {},
   "author": {
