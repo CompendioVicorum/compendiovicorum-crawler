@@ -25,53 +25,49 @@ function findAllCodPostaliBetweenTwo (start, end) {
   return output
 }
 
+const collection = getConnection()
+
+async function getConnection () {
+  try {
+    // Use connect method to connect to the Server
+    const client = await MongoClient.connect(url)
+
+    return client.collection(mongodb.collection)
+  } catch (err) {
+    console.log(err.stack)
+  }
+}
+
 describe('Compendio Vicorum', function () {
   it('should retrieve provincia information', function (done) {
-    MongoClient.connect(url, function (err, db) {
-      if (err) {
-        console.log('Error connecting to server')
-        done()
-      }
-
-      var collection = db.collection(mongodb.collection)
-
-      // Read the provincia information
-      collection.find({}).toArray(function (err, docs) {
-        assert.strictEqual(err, null)
-        docs.each(function (doc) {
-          assert.isDefined(doc.provincia)
-        })
-        done()
+    // Read the provincia information
+    collection.find({}).toArray(function (err, docs) {
+      assert.strictEqual(err, null)
+      docs.each(function (doc) {
+        assert.isDefined(doc.provincia)
       })
+      done()
+    })
+  })
 
-      // TODO Add specific it here
-      // Add check on the "Cod. postale" fields
-      collection.find({ nome: 'Abbasanta' }).toArray(function (err, docs) {
-        assert.strictEqual(err, null)
-        docs.each(function (doc) {
-          assert.isDefined(doc.provincia)
-          assert.strictEqual(doc.codicePostale, ['09071'])
-        })
-        done()
-      })
+  it('should retrieve codicePostale information', function (done) {
+    // Add check on the "Cod. postale" field for different cases
+    collection.find({ nome: 'Abbasanta' }, function (err, item) {
+      assert.strictEqual(err, null)
+      assert.strictEqual(item.codicePostale, ['09071'])
+      done()
+    })
 
-      collection.find({ nome: 'Palestrina' }).toArray(function (err, docs) {
-        assert.strictEqual(err, null)
-        docs.each(function (doc) {
-          assert.isDefined(doc.provincia)
-          assert.strictEqual(doc.codicePostale, ['00036'])
-        })
-        done()
-      })
+    collection.findOne({ nome: 'Palestrina' }, function (err, item) {
+      assert.strictEqual(err, null)
+      assert.strictEqual(item.codicePostale, ['00036'])
+      done()
+    })
 
-      collection.find({ nome: 'Roma', tipo: 'comune' }).toArray(function (err, docs) {
-        assert.strictEqual(err, null)
-        docs.each(function (doc) {
-          assert.isDefined(doc.provincia)
-          assert.strictEqual(doc.codicePostale, findAllCodPostaliBetweenTwo('118', '199'))
-        })
-        done()
-      })
+    collection.findOne({ nome: 'Roma', tipo: 'comune' }, function (err, item) {
+      assert.strictEqual(err, null)
+      assert.strictEqual(item.codicePostale, findAllCodPostaliBetweenTwo('118', '199'))
+      done()
     })
   })
 })
