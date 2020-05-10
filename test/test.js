@@ -3,7 +3,7 @@ var mocha = require('mocha')
 var describe = mocha.describe
 var it = mocha.it
 var MongoClient = require('mongodb').MongoClient
-var config = require('./config')
+var config = require('../config')
 
 // Connection URL
 var mongodb = config.mongodb
