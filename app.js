@@ -259,9 +259,9 @@ function loadComuneInfo(data){
 					codiceToInsert = S(codiceToInsert).ensureLeft(S('0').repeat(zeros).s).s;
 					comune.codicePostale.push(codiceToInsert);
 				}
-		 } else {
-			comune.codicePostale.push(tdText);
-		 }
+			} else {
+				comune.codicePostale.push(tdText);
+			}
 		} else if(thText == "Prefisso"){
 			comune.prefisso = tdText;
 		} else if(thText == "Fuso orario"){
