@@ -7,10 +7,12 @@ var S = require('string');
  */
 exports.countLeftZeros = function countLeftZeros(input){
 	var zeros = 0;
-	while(S(input[0]).startsWith(0) && S(input[1]).startsWith(0)){
-		input[0] = S(input[0]).chompLeft('0').s;
-		input[1] = S(input[1]).chompLeft('0').s;
-		zeros++;
+	if (input.length > 1) {
+		while(S(input[0]).startsWith(0) && S(input[1]).startsWith(0)){
+			input[0] = S(input[0]).chompLeft('0').s;
+			input[1] = S(input[1]).chompLeft('0').s;
+			zeros++;
+		}
 	}
 	return zeros;
 }
