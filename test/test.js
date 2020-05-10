@@ -41,6 +41,19 @@ describe('Compendio Vicorum', function () {
     })
   })
 
+  it('should retrieve regione information', function (done) {
+    // Read the regione information
+    collection.find({}).toArray(function (err, docs) {
+      assert.strictEqual(err, null)
+      var i
+      for (i = 0; i < docs.length; i++) {
+        var doc = docs[i]
+        assert.isDefined(doc.regione, 'The regione field is not defined for ' + doc.nome)
+      }
+      done()
+    })
+  })
+  
   it('should retrieve provincia information', function (done) {
     // Read the provincia information
     collection.find({}).toArray(function (err, docs) {
