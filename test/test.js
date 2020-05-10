@@ -1,4 +1,5 @@
-const assert = require('assert')
+var chai = require('chai')
+var assert = chai.assert // Using Assert style
 var mocha = require('mocha')
 var describe = mocha.describe
 var it = mocha.it
