@@ -1,7 +1,7 @@
 var S = require('string');
 
 /**
- * Count the number of the zeros.
+ * Count the number of the left zeros.
  * @param input The string that contains the number of zero to count.
  * @returns The number of the left zero of the input string.
  */
