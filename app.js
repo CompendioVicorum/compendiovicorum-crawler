@@ -241,6 +241,7 @@ function loadComuneInfo(data){
 			comune.comuniConfinanti = comuniConfinanti;
 		} else if(thText == "Cod. postale"){
 			comune.codicePostale = [];
+			tdText = tdText.trim();
 			
 			//Multiple case
 			if(tdText.length > 5){
