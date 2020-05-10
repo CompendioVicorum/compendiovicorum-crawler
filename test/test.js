@@ -48,10 +48,7 @@ describe('Compendio Vicorum', function () {
       var i
       for (i = 0; i < docs.length; i++) {
         var doc = docs[i]
-        if (!doc.provincia) {
-          console.log('Provincia not found for => ' + doc.nome)
-        }
-        assert.isDefined(doc.provincia)
+        assert.isDefined(doc.provincia, 'The provincia field is not defined for ' + doc.nome)
       }
       done()
     })
