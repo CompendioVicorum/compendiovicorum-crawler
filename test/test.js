@@ -53,15 +53,17 @@ describe('Compendio Vicorum', function () {
       done()
     })
   })
-  
-  it('should retrieve provincia information', function (done) {
+
+  it('should retrieve provincia or città metropolitana information', function (done) {
     // Read the provincia information
     collection.find({}).toArray(function (err, docs) {
       assert.strictEqual(err, null)
       var i
       for (i = 0; i < docs.length; i++) {
         var doc = docs[i]
-        assert.isDefined(doc.provincia, 'The provincia field is not defined for ' + doc.nome)
+        if (!doc.provincia && !doc.cittaMetropolitana) {
+          assert.fail('The provincia and the cittaMetropolitana fields are not defined for ' + doc.nome)
+        }
       }
       done()
     })

@@ -206,6 +206,8 @@ function loadComuneInfo (data) {
       comune.regione = tdText.trim()
     } else if (thText === 'Provincia') {
       comune.provincia = tdText.trim()
+    } else if (thText === 'Citt� metropolitana') {
+      comune.cittaMetropolitana = tdText.trim()
     } else if (thText === 'Sindaco') {
       comune.sindaco = {
         nome: utils.removeAllAfterParenthesis(tdText),
