@@ -1,5 +1,6 @@
 # compendiovicorum-crawler
 
+[![Build Status][ico-travis]][link-travis]
 [![Known Vulnerabilities](https://snyk.io/test/github/compendiovicorum/compendiovicorum-crawler/badge.svg)](https://snyk.io/test/github/compendiovicorum/compendiovicorum-crawler)
 
 A crawler that reads all the 'comune' data from italian Wikipedia. This crawler will be used to retrieve and insert all the 'comuni' information in a [MongoDB](http://www.mongodb.org/) database. It parses data that is in the right column.
@@ -78,3 +79,8 @@ The structure of insterted documents is this:
 ## Issues
 
 If you have issues, just open one [here](https://github.com/CompendioVicorum/compendiovicorum-crawler/issues).
+
+
+[ico-travis]: https://travis-ci.org/DavidePastore/codice-fiscale-rest.svg?branch=master
+
+[link-travis]: https://travis-ci.org/DavidePastore/codice-fiscale-rest
