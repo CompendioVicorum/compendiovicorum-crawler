@@ -12,7 +12,7 @@ before_script:
   # Wait because MongoDB does not immediately accept connections (https://docs.travis-ci.com/user/database-setup/#mongodb-does-not-immediately-accept-connections)
   - sleep 15
   - npm install
-  - npm standard-check
+  - npm run standard-check
 script:
   - node app.js
   - npm test
