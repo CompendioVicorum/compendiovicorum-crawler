@@ -1,5 +1,4 @@
-var bot = require('nodemw')
-var fs = require('fs')
+var Bot = require('nodemw')
 var async = require('async')
 var cheerio = require('cheerio')
 var S = require('string')
@@ -9,7 +8,7 @@ var config = require('./config')
 var utils = require('./utils')
 
 // Create a client with configuration
-var client = new bot({
+var client = new Bot({
   server: 'it.wikipedia.org', // host name of MediaWiki-powered site
   path: '/w', // path to api.php script
   debug: false // is more verbose when set to true
@@ -57,10 +56,10 @@ MongoClient.connect(url, function (err, db) {
       async.each(data, function (comuniList, seriesCallback) {
         var title = comuniList.title
         var params = {
-          action:	'parse',
-          page:	title,
-          format:	'json',
-          prop:	'text'
+          action: 'parse',
+          page: title,
+          format: 'json',
+          prop: 'text'
         }
 
         // Find all comuni
@@ -71,7 +70,7 @@ MongoClient.connect(url, function (err, db) {
             return
           }
 
-          $ = cheerio.load(data.parse.text['*'])
+          var $ = cheerio.load(data.parse.text['*'])
 
           // Convert to a normal array
           var tr = []
@@ -118,10 +117,10 @@ MongoClient.connect(url, function (err, db) {
  */
 function callApiForComune (comunePage, seriesCallback, collection) {
   var params = {
-    action:	'parse',
-    page:	comunePage,
-    format:	'json',
-    prop:	'text'
+    action: 'parse',
+    page: comunePage,
+    format: 'json',
+    prop: 'text'
   }
   client.api.call(params, function (err, info, next, data) {
     // error handling
@@ -166,7 +165,7 @@ function loadComuneInfo (data) {
 
   console.log("Parsing info of '" + comune.nome + "'")
 
-  $ = cheerio.load(html)
+  var $ = cheerio.load(html)
   $('table.sinottico > tbody > tr').each(function (index, element) {
     var th = $(element).find('th')
     var td = $(element).find('td')
@@ -199,40 +198,40 @@ function loadComuneInfo (data) {
           .ensureLeft('http:')
           .s
       }
-    } else if (thText == 'Stato') {
+    } else if (thText === 'Stato') {
       comune.stato = tdText.trim()
-    } else if (thText == 'Regione') {
+    } else if (thText === 'Regione') {
       comune.regione = tdText.trim()
-    } else if (thText == 'Provincia') {
+    } else if (thText === 'Provincia') {
       comune.provincia = tdText.trim()
-    } else if (thText == 'Sindaco') {
+    } else if (thText === 'Sindaco') {
       comune.sindaco = {
-        nome:	utils.removeAllAfterParenthesis(tdText),
-        partito:	utils.getParenthesisContent(tdText),
-        inizioCarica:	S(tdText).right(10).s
+        nome: utils.removeAllAfterParenthesis(tdText),
+        partito: utils.getParenthesisContent(tdText),
+        inizioCarica: S(tdText).right(10).s
       }
-    } else if (thText == 'Coordinate') {
+    } else if (thText === 'Coordinate') {
       comune.latitudine = td.find('.latitude').first().text()
       comune.longitudine = td.find('.longitude').first().text()
       // comune.coordinate = td;
-    } else if (thText == 'Altitudine') {
+    } else if (thText === 'Altitudine') {
       comune.altitudine = tdText
-    } else if (thText == 'Superficie') {
+    } else if (thText === 'Superficie') {
       comune.superficie = tdText
-    } else if (thText == 'Abitanti') {
+    } else if (thText === 'Abitanti') {
       comune.abitanti = utils.removeParenthesis(tdText)
       comune.censimento = utils.getParenthesisContent(tdText)
-    } else if (thText == 'Densit�') {
+    } else if (thText === 'Densit�') {
       comune.densita = tdText
-    } else if (thText == 'Frazioni') {
+    } else if (thText === 'Frazioni') {
       comune.frazioni = []
       var frazioni = tdText.split(',')
       comune.frazioni = frazioni
-    } else if (thText == 'Comuni confinanti') {
+    } else if (thText === 'Comuni confinanti') {
       comune.comuniConfinanti = []
       var comuniConfinanti = tdText.split(',')
       comune.comuniConfinanti = comuniConfinanti
-    } else if (thText == 'Cod. postale') {
+    } else if (thText === 'Cod. postale') {
       comune.codicePostale = []
 
       // Multiple case
@@ -252,34 +251,34 @@ function loadComuneInfo (data) {
           codiceToInsert = S(codiceToInsert).ensureLeft(S('0').repeat(zeros).s).s
           comune.codicePostale.push(codiceToInsert)
         }
-		 } else {
+      } else {
         comune.codicePostale.push(tdText)
-		 }
-    } else if (thText == 'Prefisso') {
+      }
+    } else if (thText === 'Prefisso') {
       comune.prefisso = tdText
-    } else if (thText == 'Fuso orario') {
+    } else if (thText === 'Fuso orario') {
       comune.fusoOrario = tdText
-    } else if (thText == 'ISO 3166-2') {
+    } else if (thText === 'ISO 3166-2') {
       comune.ISO31662 = tdText
-    } else if (thText == 'Codice ISTAT') {
+    } else if (thText === 'Codice ISTAT') {
       comune.codiceIstat = tdText
-    } else if (thText == 'Cod. Catastale') {
+    } else if (thText === 'Cod. Catastale') {
       comune.codCatastale = tdText
-    } else if (thText == 'Targa') {
+    } else if (thText === 'Targa') {
       comune.targa = tdText
-    } else if (thText == 'Cl. sismica') {
+    } else if (thText === 'Cl. sismica') {
       comune.classificazioneSismica = tdText
-    } else if (thText == 'Cl. climatica') {
+    } else if (thText === 'Cl. climatica') {
       comune.classificazioneClimatica = tdText
-    } else if (thText == 'Nome abitanti') {
+    } else if (thText === 'Nome abitanti') {
       comune.nomeAbitanti = tdText
-    } else if (thText == 'Patrono') {
+    } else if (thText === 'Patrono') {
       comune.patrono = tdText
-    } else if (thText == 'Giorno festivo') {
+    } else if (thText === 'Giorno festivo') {
       comune.giornoFestivo = tdText
-    } else if (thText == 'Sito istituzionale') {
+    } else if (thText === 'Sito istituzionale') {
       comune.sitoIstituzionale = th.find('a').attr('href')
-    } else if (thText == 'Soprannome') {
+    } else if (thText === 'Soprannome') {
       comune.soprannomi = tdText.split(',')
     }
   })
