@@ -237,7 +237,10 @@ function loadComuneInfo (data) {
       comune.comuniConfinanti = comuniConfinanti
     } else if (thText === 'Cod. postale') {
       comune.codicePostale = []
-      tdText = utils.removeAllAfterParenthesis(tdText)
+      if (tdText.match(/\(/g)) {
+        // Remove parenthesis if the string contains them
+        tdText = utils.removeAllAfterParenthesis(tdText)
+      }
       tdText = tdText.trim()
 
       // Multiple case
