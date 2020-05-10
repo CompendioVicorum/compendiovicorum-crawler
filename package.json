@@ -12,7 +12,9 @@
     "string": "^3.0.0",
     "snyk": "^1.317.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "standard": "*"
+  },
   "author": {
     "name": "Davide Pastore",
     "email": "pasdavide@gmail.com"
@@ -28,7 +30,9 @@
   "license": "GPL-2.0",
   "scripts": {
     "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "prepublish": "npm run snyk-protect",
+    "test": "standard",
+    "standard-check": "standard"
   },
   "snyk": true
 }
