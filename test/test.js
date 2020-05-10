@@ -42,7 +42,7 @@ describe('Compendio Vicorum', function() {
         this.timeout(TIMEOUT_TIME); //timeout with an error if done() isn't called within the given time
 
         child.on('exit', function (code, signal) {
-            console.log('onexit gna');
+            console.log('onexit test test');
             MongoClient.connect(url, function(err, db) {
                 if(err){
                     console.log("Error connecting to server");
