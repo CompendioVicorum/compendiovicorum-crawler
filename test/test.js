@@ -47,7 +47,11 @@ describe('Compendio Vicorum', function () {
       assert.strictEqual(err, null)
       var i
       for (i = 0; i < docs.length; i++) {
-        assert.isDefined(docs[i].provincia)
+        var doc = docs[i]
+        if (!doc.provincia) {
+          console.log('Provincia not found for => ' + doc.nome)
+        }
+        assert.isDefined(doc.provincia)
       }
       done()
     })
@@ -57,7 +61,7 @@ describe('Compendio Vicorum', function () {
     // Add check on the "Cod. postale" field for different cases
     collection.findOne({ nome: 'Abbasanta' }, function (err, item) {
       assert.strictEqual(err, null)
-      assert.strictEqual(item.codicePostale, ['09071'])
+      assert.deepEqual(item.codicePostale, ['09071'])
       done()
     })
   })
@@ -65,7 +69,7 @@ describe('Compendio Vicorum', function () {
   it('should retrieve codicePostale information of Palestrina', function (done) {
     collection.findOne({ nome: 'Palestrina' }, function (err, item) {
       assert.strictEqual(err, null)
-      assert.strictEqual(item.codicePostale, ['00036'])
+      assert.deepEqual(item.codicePostale, ['00036'])
       done()
     })
   })
@@ -73,7 +77,7 @@ describe('Compendio Vicorum', function () {
   it('should retrieve codicePostale information of Roma', function (done) {
     collection.findOne({ nome: 'Roma', tipo: 'comune' }, function (err, item) {
       assert.strictEqual(err, null)
-      assert.strictEqual(item.codicePostale, findAllCodPostaliBetweenTwo('118', '199'))
+      assert.deepEqual(item.codicePostale, findAllCodPostaliBetweenTwo('118', '199'))
       done()
     })
   })
