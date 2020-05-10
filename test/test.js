@@ -18,7 +18,7 @@ if (mongodb.auth) {
 
 url += mongodb.server + ':' + mongodb.port + '/' + mongodb.database
 
-function findAllCodPostaliBetweenTwo (start, end) {
+function generateAllCodPostaliBetweenTwo (start, end) {
   var output = []
   for (var i = 118; i <= 199; i++) {
     output.push('00' + i)
@@ -74,7 +74,7 @@ describe('Compendio Vicorum', function () {
   it('should retrieve codicePostale information of Roma', function (done) {
     collection.findOne({ nome: 'Roma', tipo: 'comune' }, function (err, item) {
       assert.strictEqual(err, null)
-      assert.deepEqual(item.codicePostale, findAllCodPostaliBetweenTwo('118', '199'))
+      assert.deepEqual(item.codicePostale, generateAllCodPostaliBetweenTwo('118', '199'))
       done()
     })
   })
