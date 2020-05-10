@@ -29,7 +29,7 @@
   "scripts": {
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect",
-    "test": "mocha
+    "test": "mocha"
   },
   "snyk": true
 }
