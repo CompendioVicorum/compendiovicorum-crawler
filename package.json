@@ -12,7 +12,9 @@
     "string": "^3.0.0",
     "snyk": "^1.317.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "standard": "*"
+  },
   "author": {
     "name": "Davide Pastore",
     "email": "pasdavide@gmail.com"
@@ -29,7 +31,8 @@
   "scripts": {
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect",
-    "test": "mocha"
+    "test": "standard && mocha",
+    "standard-check": "standard"
   },
   "snyk": true
 }
