@@ -72,7 +72,7 @@ describe('Compendio Vicorum', function () {
   })
 
   it('should retrieve codicePostale information of Roma', function (done) {
-    collection.findOne({ nome: 'Roma'}, function (err, item) {
+    collection.findOne({ nome: 'Roma' }, function (err, item) {
       assert.strictEqual(err, null)
       assert.deepEqual(item.codicePostale, generateAllCodPostaliBetweenTwo('118', '199'))
       done()
