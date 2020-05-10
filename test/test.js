@@ -2,6 +2,7 @@ const assert = require('assert')
 var mocha = require('mocha')
 var describe = mocha.describe
 var it = mocha.it
+var before = mocha.before
 var MongoClient = require('mongodb').MongoClient
 var config = require('../config')
 
@@ -25,20 +26,20 @@ function findAllCodPostaliBetweenTwo (start, end) {
   return output
 }
 
-const collection = getConnection()
-
-async function getConnection () {
-  try {
-    // Use connect method to connect to the Server
-    const client = await MongoClient.connect(url)
-
-    return client.collection(mongodb.collection)
-  } catch (err) {
-    console.log(err.stack)
-  }
-}
+let collection
 
 describe('Compendio Vicorum', function () {
+  before(function (done) {
+    MongoClient.connect(url, function (err, db) {
+      if (err) {
+        return done(err)
+      }
+
+      collection = db.collection(mongodb.collection)
+      done()
+    })
+  })
+
   it('should retrieve provincia information', function (done) {
     // Read the provincia information
     collection.find({}).toArray(function (err, docs) {
