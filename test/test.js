@@ -41,28 +41,45 @@ describe('Compendio Vicorum', function () {
     })
   })
 
-  it('should retrieve regione information', function (done) {
-    // Read the regione information
+  it('should retrieve basic information about the comune', function (done) {
+    const propertiesToCheck = [
+      'stato',
+      'regione',
+      'latitudine',
+      'longitudine',
+      'altitudine',
+      'superficie',
+      'abitanti',
+      'densita',
+      'codicePostale',
+      'prefisso',
+      'fusoOrario',
+      'ISO31662',
+      'codiceIstat',
+      'codCatastale',
+      'targa',
+      'classificazioneSismica',
+      'classificazioneClimatica',
+      'nomeAbitanti',
+      'patrono',
+      'giornoFestivo',
+      'sitoIstituzionale'
+    ]
+    // Read the basic information about the comune
     collection.find({}).toArray(function (err, docs) {
       assert.strictEqual(err, null)
       var i
       for (i = 0; i < docs.length; i++) {
         var doc = docs[i]
-        assert.isDefined(doc.regione, 'The regione field is not defined for ' + doc.nome)
-      }
-      done()
-    })
-  })
 
-  it('should retrieve provincia or città metropolitana information', function (done) {
-    // Read the provincia information
-    collection.find({}).toArray(function (err, docs) {
-      assert.strictEqual(err, null)
-      var i
-      for (i = 0; i < docs.length; i++) {
-        var doc = docs[i]
         if (!doc.provincia && !doc.cittaMetropolitana) {
           assert.fail('The provincia and the cittaMetropolitana fields are not defined for ' + doc.nome)
+        }
+
+        var j
+        for (j = 0; j < propertiesToCheck.length; j++) {
+          var propertyToCheck = propertiesToCheck[j]
+          assert.isDefined(doc[propertyToCheck], 'The ' + propertyToCheck + ' field is not defined for ' + doc.nome)
         }
       }
       done()
