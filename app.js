@@ -225,7 +225,7 @@ function loadComuneInfo (data) {
     } else if (thText === 'Abitanti') {
       comune.abitanti = utils.removeParenthesis(tdText)
       comune.censimento = utils.getParenthesisContent(tdText)
-    } else if (thText === 'Densit�') {
+    } else if (thText === 'Densità') {
       comune.densita = tdText
     } else if (thText === 'Frazioni') {
       comune.frazioni = []
