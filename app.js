@@ -271,7 +271,7 @@ function loadComuneInfo (data) {
       comune.ISO31662 = tdText
     } else if (thText === 'Codice ISTAT') {
       comune.codiceIstat = tdText
-    } else if (thText === 'Cod. Catastale') {
+    } else if (thText === 'Cod. catastale') {
       comune.codCatastale = tdText
     } else if (thText === 'Targa') {
       comune.targa = tdText
