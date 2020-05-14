@@ -216,7 +216,7 @@ function loadComuneInfo (data) {
         partito: utils.getParenthesisContent(tdText),
         inizioCarica: S(tdText).right(10).s
       }
-    } else if (thText === 'Coordinate') {
+    } else if (thText === 'Coordinate' || thText === 'Coordinate del capoluogo') {
       comune.latitudine = td.find('.latitude').first().text()
       comune.longitudine = td.find('.longitude').first().text()
       // comune.coordinate = td;
