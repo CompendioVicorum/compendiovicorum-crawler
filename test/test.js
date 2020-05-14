@@ -59,7 +59,6 @@ describe('Compendio Vicorum', function () {
       'targa',
       'classificazioneSismica',
       'nomeAbitanti',
-      'giornoFestivo',
       'sitoIstituzionale'
     ]
     // Read the basic information about the comune
