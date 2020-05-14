@@ -59,7 +59,6 @@ describe('Compendio Vicorum', function () {
       'targa',
       'classificazioneSismica',
       'nomeAbitanti',
-      'patrono',
       'giornoFestivo',
       'sitoIstituzionale'
     ]
