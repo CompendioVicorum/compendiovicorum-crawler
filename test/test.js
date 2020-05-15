@@ -47,7 +47,6 @@ describe('Compendio Vicorum', function () {
       'regione',
       'latitudine',
       'longitudine',
-      'altitudine',
       'superficie',
       'abitanti',
       'densita',
