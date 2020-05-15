@@ -174,6 +174,10 @@ function loadComuneInfo (data) {
     var thText = th.text()
     var tdText = td.text()
 
+    if (comune.nome === 'Abetone Cutigliano') {
+      console.log(thText, ' => ', tdText)
+    }
+
     if (th.hasClass('sinottico_testata')) {
       comune.tipo = th.find('a').text()
       comune.nome = th
@@ -216,7 +220,7 @@ function loadComuneInfo (data) {
         partito: utils.getParenthesisContent(tdText),
         inizioCarica: S(tdText).right(10).s
       }
-    } else if (thText === 'Coordinate' || thText === 'Coordinate del capoluogo') {
+    } else if (thText === 'Coordinate' || thText === 'Coordinatedel capoluogo') {
       comune.latitudine = td.find('.latitude').first().text()
       comune.longitudine = td.find('.longitude').first().text()
       // comune.coordinate = td;
