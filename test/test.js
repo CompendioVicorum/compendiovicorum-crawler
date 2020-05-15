@@ -55,8 +55,6 @@ describe('Compendio Vicorum', function () {
       'fusoOrario',
       'codiceIstat',
       'codCatastale',
-      'targa',
-      'classificazioneSismica',
       'sitoIstituzionale'
     ]
     // Read the basic information about the comune
