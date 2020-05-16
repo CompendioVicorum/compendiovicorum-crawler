@@ -122,7 +122,8 @@ function callApiForComune (comunePage, seriesCallback, collection) {
     action: 'parse',
     page: comunePage,
     format: 'json',
-    prop: 'text'
+    prop: 'text',
+    redirects: ''
   }
   client.api.call(params, function (err, info, next, data) {
     // error handling
