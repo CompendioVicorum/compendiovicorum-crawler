@@ -61,11 +61,6 @@ describe('Compendio Vicorum', function () {
       var i
       for (i = 0; i < docs.length; i++) {
         var doc = docs[i]
-
-        if (!doc.provincia && !doc.cittaMetropolitana) {
-          assert.fail('The provincia and the cittaMetropolitana fields are not defined for ' + doc.nome)
-        }
-
         var j
         for (j = 0; j < propertiesToCheck.length; j++) {
           var propertyToCheck = propertiesToCheck[j]
