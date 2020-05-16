@@ -50,7 +50,6 @@ describe('Compendio Vicorum', function () {
       'superficie',
       'abitanti',
       'densita',
-      'codicePostale',
       'prefisso',
       'fusoOrario',
       'codiceIstat',
