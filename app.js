@@ -28,7 +28,7 @@ url += mongodb.server + ':' + mongodb.port + '/' + mongodb.database
 MongoClient.connect(url, function (err, db) {
   if (err) {
     console.log('Error connecting to server')
-    return
+    process.exit(1)
   } else {
     console.log('Connected correctly to server')
   }
@@ -102,8 +102,10 @@ MongoClient.connect(url, function (err, db) {
     if (err) {
       console.error('ERR')
       console.error(err)
+      process.exit(1)
     } else {
       console.log('Operation completed')
+      process.exit(0)
     }
   }
   )
@@ -120,7 +122,8 @@ function callApiForComune (comunePage, seriesCallback, collection) {
     action: 'parse',
     page: comunePage,
     format: 'json',
-    prop: 'text'
+    prop: 'text',
+    redirects: ''
   }
   client.api.call(params, function (err, info, next, data) {
     // error handling
@@ -172,6 +175,10 @@ function loadComuneInfo (data) {
     var thText = th.text()
     var tdText = td.text()
 
+    if (comune.nome === 'Abetone Cutigliano') {
+      console.log(thText, ' => ', tdText)
+    }
+
     if (th.hasClass('sinottico_testata')) {
       comune.tipo = th.find('a').text()
       comune.nome = th
@@ -204,13 +211,17 @@ function loadComuneInfo (data) {
       comune.regione = tdText.trim()
     } else if (thText === 'Provincia') {
       comune.provincia = tdText.trim()
+    } else if (thText === 'Città metropolitana') {
+      comune.cittaMetropolitana = tdText.trim()
+    } else if (thText === 'Capoluogo') {
+      comune.capoluogo = tdText.trim()
     } else if (thText === 'Sindaco') {
       comune.sindaco = {
         nome: utils.removeAllAfterParenthesis(tdText),
         partito: utils.getParenthesisContent(tdText),
         inizioCarica: S(tdText).right(10).s
       }
-    } else if (thText === 'Coordinate') {
+    } else if (thText === 'Coordinate' || thText === 'Coordinatedel capoluogo') {
       comune.latitudine = td.find('.latitude').first().text()
       comune.longitudine = td.find('.longitude').first().text()
       // comune.coordinate = td;
@@ -221,7 +232,7 @@ function loadComuneInfo (data) {
     } else if (thText === 'Abitanti') {
       comune.abitanti = utils.removeParenthesis(tdText)
       comune.censimento = utils.getParenthesisContent(tdText)
-    } else if (thText === 'Densit�') {
+    } else if (thText === 'Densità') {
       comune.densita = tdText
     } else if (thText === 'Frazioni') {
       comune.frazioni = []
@@ -233,6 +244,11 @@ function loadComuneInfo (data) {
       comune.comuniConfinanti = comuniConfinanti
     } else if (thText === 'Cod. postale') {
       comune.codicePostale = []
+      if (tdText.match(/\(/g)) {
+        // Remove parenthesis if the string contains them
+        tdText = utils.removeAllAfterParenthesis(tdText)
+      }
+      tdText = tdText.trim()
 
       // Multiple case
       if (tdText.length > 5) {
@@ -262,7 +278,7 @@ function loadComuneInfo (data) {
       comune.ISO31662 = tdText
     } else if (thText === 'Codice ISTAT') {
       comune.codiceIstat = tdText
-    } else if (thText === 'Cod. Catastale') {
+    } else if (thText === 'Cod. catastale') {
       comune.codCatastale = tdText
     } else if (thText === 'Targa') {
       comune.targa = tdText

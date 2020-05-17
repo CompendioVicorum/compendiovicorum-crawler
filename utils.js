@@ -1,16 +1,18 @@
 var S = require('string')
 
 /**
- * Count the number of the zeros.
+ * Count the number of the left zeros.
  * @param input The string that contains the number of zero to count.
  * @returns The number of the left zero of the input string.
  */
 exports.countLeftZeros = function countLeftZeros (input) {
   var zeros = 0
-  while (S(input[0]).startsWith(0) && S(input[1]).startsWith(0)) {
-    input[0] = S(input[0]).chompLeft('0').s
-    input[1] = S(input[1]).chompLeft('0').s
-    zeros++
+  if (input.length > 1) {
+    while (S(input[0]).startsWith(0) && S(input[1]).startsWith(0)) {
+      input[0] = S(input[0]).chompLeft('0').s
+      input[1] = S(input[1]).chompLeft('0').s
+      zeros++
+    }
   }
   return zeros
 }

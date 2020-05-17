@@ -1,0 +1,103 @@
+var chai = require('chai')
+var assert = chai.assert // Using Assert style
+var mocha = require('mocha')
+var describe = mocha.describe
+var it = mocha.it
+var before = mocha.before
+var after = mocha.after
+var MongoClient = require('mongodb').MongoClient
+var config = require('../config')
+
+// Connection URL
+var mongodb = config.mongodb
+
+var url = 'mongodb://'
+
+if (mongodb.auth) {
+  url += mongodb.username + ':' + mongodb.password + '@'
+}
+
+url += mongodb.server + ':' + mongodb.port + '/' + mongodb.database
+
+function generateAllCodPostaliBetweenTwo (start, end) {
+  var output = []
+  for (var i = 118; i <= 199; i++) {
+    output.push('00' + i)
+  }
+
+  return output
+}
+
+let collection
+let dbConnection
+
+describe('Compendio Vicorum', function () {
+  before(function (done) {
+    MongoClient.connect(url, function (err, db) {
+      if (err) {
+        return done(err)
+      }
+      dbConnection = db
+
+      collection = db.collection(mongodb.collection)
+      done()
+    })
+  })
+
+  after(function () {
+    dbConnection.close()
+  })
+
+  it('should retrieve basic information about the comune', function (done) {
+    const propertiesToCheck = [
+      'stato',
+      'regione',
+      'latitudine',
+      'longitudine',
+      'abitanti',
+      'prefisso',
+      'fusoOrario',
+      'codiceIstat',
+      'codCatastale'
+    ]
+    // Read the basic information about the comune
+    collection.find({}).toArray(function (err, docs) {
+      assert.strictEqual(err, null)
+      var i
+      for (i = 0; i < docs.length; i++) {
+        var doc = docs[i]
+        var j
+        for (j = 0; j < propertiesToCheck.length; j++) {
+          var propertyToCheck = propertiesToCheck[j]
+          assert.isDefined(doc[propertyToCheck], 'The ' + propertyToCheck + ' field is not defined for ' + doc.nome)
+        }
+      }
+      done()
+    })
+  })
+
+  it('should retrieve codicePostale information of Abbasanta', function (done) {
+    // Add check on the "Cod. postale" field for different cases
+    collection.findOne({ nome: 'Abbasanta' }, function (err, item) {
+      assert.strictEqual(err, null)
+      assert.deepEqual(item.codicePostale, ['09071'])
+      done()
+    })
+  })
+
+  it('should retrieve codicePostale information of Palestrina', function (done) {
+    collection.findOne({ nome: 'Palestrina' }, function (err, item) {
+      assert.strictEqual(err, null)
+      assert.deepEqual(item.codicePostale, ['00036'])
+      done()
+    })
+  })
+
+  it('should retrieve codicePostale information of Roma', function (done) {
+    collection.findOne({ nome: 'Roma' }, function (err, item) {
+      assert.strictEqual(err, null)
+      assert.deepEqual(item.codicePostale, generateAllCodPostaliBetweenTwo('118', '199'))
+      done()
+    })
+  })
+})
