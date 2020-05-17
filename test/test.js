@@ -4,6 +4,7 @@ var mocha = require('mocha')
 var describe = mocha.describe
 var it = mocha.it
 var before = mocha.before
+var after = mocha.after
 var MongoClient = require('mongodb').MongoClient
 var config = require('../config')
 
@@ -28,6 +29,7 @@ function generateAllCodPostaliBetweenTwo (start, end) {
 }
 
 let collection
+let dbConnection
 
 describe('Compendio Vicorum', function () {
   before(function (done) {
@@ -35,11 +37,15 @@ describe('Compendio Vicorum', function () {
       if (err) {
         return done(err)
       }
+      dbConnection = db
 
       collection = db.collection(mongodb.collection)
-      db.close()
       done()
     })
+  })
+
+  after(function () {
+    dbConnection.close()
   })
 
   it('should retrieve basic information about the comune', function (done) {
