@@ -37,6 +37,7 @@ describe('Compendio Vicorum', function () {
       }
 
       collection = db.collection(mongodb.collection)
+      db.close()
       done()
     })
   })
