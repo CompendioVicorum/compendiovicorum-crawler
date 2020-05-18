@@ -106,8 +106,8 @@ describe('Compendio Vicorum', function () {
       assert.strictEqual(item.stato, 'Italia')
       assert.strictEqual(item.regione, 'Puglia')
       assert.strictEqual(item.cittaMetropolitana, 'Bari')
-      assert.strictEqual(item.stemma, 'https://it.wikipedia.org/wiki/File:CoA_Citt%C3%A0_di_Bari.svg')
-      assert.strictEqual(item.bandiera, 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Flag_of_Bari.svg/188px-Flag_of_Bari.svg.png')
+      assert.strictEqual(item.stemma, 'https://upload.wikimedia.org/wikipedia/commons/f/f7/CoA_Citt%C3%A0_di_Bari.svg')
+      assert.strictEqual(item.bandiera, 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Flag_of_Bari.svg')
       const expectedSindaco = {
         nome: 'Antonio Decaro',
         partito: 'PD',
