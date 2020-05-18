@@ -10,4 +10,9 @@ describe('Utils', function () {
     assert.strictEqual(utils.removeAllAfterParenthesis('Test (text)'), 'Test')
     done()
   })
+
+  it('getParenthesisContent should retrieve all the text in the parenthesis', function (done) {
+    assert.strictEqual(utils.getParenthesisContent('Test (text)'), 'text')
+    done()
+  })
 })
