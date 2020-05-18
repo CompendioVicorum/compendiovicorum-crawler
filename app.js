@@ -35,7 +35,7 @@ MongoClient.connect(url, function (err, client) {
 
   var db = client.db(mongodb.database)
   var collection = db.collection(mongodb.collection)
-  collection.ensureIndex('nome', function (err) {
+  collection.createIndex({ nome: 1 }, function (err) {
     if (err) {
       console.error('Error creating the index.')
     }
