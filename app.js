@@ -8,7 +8,7 @@ var config = require('./config')
 var utils = require('./utils')
 
 // Create a client with configuration
-var client = new Bot({
+var mediaWikiClient = new Bot({
   server: 'it.wikipedia.org', // host name of MediaWiki-powered site
   path: '/w', // path to api.php script
   debug: false // is more verbose when set to true
@@ -23,9 +23,9 @@ if (mongodb.auth) {
   url += mongodb.username + ':' + mongodb.password + '@'
 }
 
-url += mongodb.server + ':' + mongodb.port + '/' + mongodb.database
+url += mongodb.server + ':' + mongodb.port
 
-MongoClient.connect(url, function (err, db) {
+MongoClient.connect(url, function (err, client) {
   if (err) {
     console.log('Error connecting to server')
     process.exit(1)
@@ -33,8 +33,9 @@ MongoClient.connect(url, function (err, db) {
     console.log('Connected correctly to server')
   }
 
+  var db = client.db(mongodb.database)
   var collection = db.collection(mongodb.collection)
-  collection.ensureIndex('nome', function (err) {
+  collection.createIndex({ nome: 1 }, function (err) {
     if (err) {
       console.error('Error creating the index.')
     }
@@ -42,7 +43,7 @@ MongoClient.connect(url, function (err, db) {
 
   async.waterfall([
     function (callback) {
-      client.getPagesByPrefix('Comuni_d\'Italia_(', function (err, data) {
+      mediaWikiClient.getPagesByPrefix('Comuni_d\'Italia_(', function (err, data) {
         // error handling
         if (err) {
           console.error(err)
@@ -63,7 +64,7 @@ MongoClient.connect(url, function (err, db) {
         }
 
         // Find all comuni
-        client.api.call(params, function (err, info, next, data) {
+        mediaWikiClient.api.call(params, function (err, info, next, data) {
           // error handling
           if (err) {
             console.error(err)
@@ -94,7 +95,7 @@ MongoClient.connect(url, function (err, db) {
     },
     function (callback) {
       console.log('Closing server connection')
-      db.close()
+      client.close()
       callback()
     }
   ],
@@ -125,7 +126,7 @@ function callApiForComune (comunePage, seriesCallback, collection) {
     prop: 'text',
     redirects: ''
   }
-  client.api.call(params, function (err, info, next, data) {
+  mediaWikiClient.api.call(params, function (err, info, next, data) {
     // error handling
     if (err) {
       console.error(err)
