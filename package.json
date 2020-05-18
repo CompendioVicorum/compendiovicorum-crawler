@@ -10,9 +10,13 @@
     "mongodb": "^3.1.13",
     "nodemw": "^0.7.5",
     "string": "^3.0.0",
-    "snyk": "^1.231.0"
+    "snyk": "^1.317.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.1.2",
+    "standard": "*"
+  },
   "author": {
     "name": "Davide Pastore",
     "email": "pasdavide@gmail.com"
@@ -28,7 +32,9 @@
   "license": "GPL-2.0",
   "scripts": {
     "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "prepublish": "npm run snyk-protect",
+    "test": "standard && mocha",
+    "standard-check": "standard"
   },
   "snyk": true
 }
