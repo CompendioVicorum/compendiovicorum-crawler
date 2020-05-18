@@ -8,7 +8,7 @@ var config = require('./config')
 var utils = require('./utils')
 
 // Create a client with configuration
-var client = new Bot({
+var mediaWikiClient = new Bot({
   server: 'it.wikipedia.org', // host name of MediaWiki-powered site
   path: '/w', // path to api.php script
   debug: false // is more verbose when set to true
@@ -43,7 +43,7 @@ MongoClient.connect(url, function (err, client) {
 
   async.waterfall([
     function (callback) {
-      client.getPagesByPrefix('Comuni_d\'Italia_(', function (err, data) {
+      mediaWikiClient.getPagesByPrefix('Comuni_d\'Italia_(', function (err, data) {
         // error handling
         if (err) {
           console.error(err)
@@ -64,7 +64,7 @@ MongoClient.connect(url, function (err, client) {
         }
 
         // Find all comuni
-        client.api.call(params, function (err, info, next, data) {
+        mediaWikiClient.api.call(params, function (err, info, next, data) {
           // error handling
           if (err) {
             console.error(err)
@@ -126,7 +126,7 @@ function callApiForComune (comunePage, seriesCallback, collection) {
     prop: 'text',
     redirects: ''
   }
-  client.api.call(params, function (err, info, next, data) {
+  mediaWikiClient.api.call(params, function (err, info, next, data) {
     // error handling
     if (err) {
       console.error(err)
