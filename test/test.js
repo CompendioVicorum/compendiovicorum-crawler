@@ -17,7 +17,7 @@ if (mongodb.auth) {
   url += mongodb.username + ':' + mongodb.password + '@'
 }
 
-url += mongodb.server + ':' + mongodb.port + '/' + mongodb.database
+url += mongodb.server + ':' + mongodb.port
 
 function generateAllCodPostaliBetweenTwo (start, end) {
   var output = []
@@ -29,23 +29,23 @@ function generateAllCodPostaliBetweenTwo (start, end) {
 }
 
 let collection
-let dbConnection
+let mongoClient
 
 describe('Compendio Vicorum', function () {
   before(function (done) {
-    MongoClient.connect(url, function (err, db) {
+    MongoClient.connect(url, function (err, client) {
       if (err) {
         return done(err)
       }
-      dbConnection = db
-
+      mongoClient = client
+      const db = client.db(mongodb.database)
       collection = db.collection(mongodb.collection)
       done()
     })
   })
 
   after(function () {
-    dbConnection.close()
+    mongoClient.close()
   })
 
   it('should retrieve basic information about the comune', function (done) {

@@ -23,9 +23,9 @@ if (mongodb.auth) {
   url += mongodb.username + ':' + mongodb.password + '@'
 }
 
-url += mongodb.server + ':' + mongodb.port + '/' + mongodb.database
+url += mongodb.server + ':' + mongodb.port
 
-MongoClient.connect(url, function (err, db) {
+MongoClient.connect(url, function (err, client) {
   if (err) {
     console.log('Error connecting to server')
     process.exit(1)
@@ -33,6 +33,7 @@ MongoClient.connect(url, function (err, db) {
     console.log('Connected correctly to server')
   }
 
+  var db = client.db(mongodb.database)
   var collection = db.collection(mongodb.collection)
   collection.ensureIndex('nome', function (err) {
     if (err) {
@@ -94,7 +95,7 @@ MongoClient.connect(url, function (err, db) {
     },
     function (callback) {
       console.log('Closing server connection')
-      db.close()
+      client.close()
       callback()
     }
   ],
