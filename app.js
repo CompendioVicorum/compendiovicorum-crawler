@@ -9,6 +9,7 @@ var utils = require('./utils')
 
 // Create a client with configuration
 var mediaWikiClient = new Bot({
+  protocol: 'https',
   server: 'it.wikipedia.org', // host name of MediaWiki-powered site
   path: '/w', // path to api.php script
   debug: false // is more verbose when set to true
