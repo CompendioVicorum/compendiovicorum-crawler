@@ -196,7 +196,7 @@ function loadComuneInfo (data) {
       comune.stemma = S(stemma)
         .left(stemma.lastIndexOf('/'))
         .replaceAll('thumb/', '')
-        .ensureLeft('http:')
+        .ensureLeft('https:')
         .s
 
       if (img.length > 1) {
@@ -204,7 +204,7 @@ function loadComuneInfo (data) {
         comune.bandiera = S(bandiera)
           .left(bandiera.lastIndexOf('/'))
           .replaceAll('thumb/', '')
-          .ensureLeft('http:')
+          .ensureLeft('https:')
           .s
       }
     } else if (thText === 'Stato') {
