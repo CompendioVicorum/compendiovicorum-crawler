@@ -34,7 +34,7 @@ exports.getParenthesisContent = function getParenthesisContent (input) {
 }
 
 /**
- * Remove the brackets from the input string.
+ * Remove the parenthesis from the input string.
  * @returns The input string without the parenthesis.
  */
 exports.removeParenthesis = function removeParenthesis (input) {
@@ -47,4 +47,52 @@ exports.removeParenthesis = function removeParenthesis (input) {
  */
 exports.removeBrackets = function removeBrackets (input) {
   return input.replace(/ *\[[^)]*\] */g, '') // remove [] and everything in them
+}
+
+/**
+ * Pad the given string for the given width for the given symbol.
+ * @param n The string to pad.
+ * @param width The width of the padding.
+ * @param z The symbol to use for the padding.
+ * @returns The padded string.
+ */
+function pad (n, width, z) {
+  z = z || '0'
+  n = n + ''
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
+}
+
+/**
+ * Find the sindaco name.
+ * @param string The string from which retrieve the sindaco name.
+ * @returns Returns the sindaco name.
+ */
+function findSindacoNome (string) {
+  let sindacoName = S(string).between('', ' dal').s
+  if (S(sindacoName).contains('(')) {
+    sindacoName = exports.removeAllAfterParenthesis(sindacoName)
+  }
+  return sindacoName
+}
+
+/**
+ * Build the sindaco from the input string.
+ * @param string The string from which retrieve the sindaco information.
+ * @returns Returns the sindaco object.
+ */
+exports.buildSindaco = function buildSindaco (string) {
+  const containingDate = S(string).between(' dal ')
+  let sep = '-'
+  if (containingDate.count('/') > 1) {
+    sep = '/'
+  }
+  const date = containingDate.splitLeft(sep)
+  const day = date[0]
+  const month = pad(date[1], 2)
+  const year = S(date[2]).left(4).s
+  return {
+    nome: findSindacoNome(string),
+    partito: exports.getParenthesisContent(string),
+    inizioCarica: day + '/' + month + '/' + year
+  }
 }

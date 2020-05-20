@@ -218,11 +218,7 @@ function loadComuneInfo (data) {
     } else if (thText === 'Capoluogo') {
       comune.capoluogo = tdText.trim()
     } else if (thText === 'Sindaco') {
-      comune.sindaco = {
-        nome: utils.removeAllAfterParenthesis(tdText),
-        partito: utils.getParenthesisContent(tdText),
-        inizioCarica: S(tdText).right(10).s
-      }
+      comune.sindaco = utils.buildSindaco(tdText)
     } else if (thText === 'Data di istituzione') {
       comune.dataIstituzione = tdText.trim()
     } else if (thText === 'Coordinate' || thText === 'Coordinatedel capoluogo') {
