@@ -76,6 +76,21 @@ describe('Compendio Vicorum', function () {
     })
   })
 
+  it('should retrieve the sindaco.inizioCarica field in the right format', function (done) {
+    collection.find({}).toArray(function (err, docs) {
+      assert.strictEqual(err, null)
+      var i
+      for (i = 0; i < docs.length; i++) {
+        var doc = docs[i]
+        if (doc.sindaco) {
+          const inizioCarica = doc.sindaco.inizioCarica
+          assert.match(inizioCarica, /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/\d{4}$/, 'The sindaco.inizioCarica field is not defined for ' + doc.nome)
+        }
+      }
+      done()
+    })
+  })
+
   it('should retrieve codicePostale information of Abbasanta', function (done) {
     collection.findOne({ nome: 'Abbasanta' }, function (err, item) {
       assert.strictEqual(err, null)
