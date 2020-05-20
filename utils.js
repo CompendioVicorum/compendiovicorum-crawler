@@ -81,10 +81,14 @@ function findSindacoNome (string) {
  * @returns Returns the sindaco object.
  */
 exports.buildSindaco = function buildSindaco (string) {
-  const containingDate = S(string).between(' dal ')
+  let containingDate = S(string).between(' dal ')
   let sep = '-'
-  if (containingDate.count('/') > 1) {
+  if (containingDate.count('-') > 1) {
+    sep = '-'
+  } else if (containingDate.count('/') > 1) {
     sep = '/'
+  } else {
+    containingDate = S('01-01-' + containingDate)
   }
   const date = containingDate.splitLeft(sep)
   const day = date[0]

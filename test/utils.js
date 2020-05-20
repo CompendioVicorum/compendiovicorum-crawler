@@ -74,4 +74,15 @@ describe('Utils', function () {
     assert.deepEqual(utils.buildSindaco(tdText), expected)
     done()
   })
+
+  it('buildSindaco should build the correct sindaco object in the case of date with only the year', function (done) {
+    const tdText = 'Granata Ginetta (lista civica) dal 2016'
+    const expected = {
+      nome: 'Granata Ginetta',
+      partito: 'lista civica',
+      inizioCarica: '01/01/2016'
+    }
+    assert.deepEqual(utils.buildSindaco(tdText), expected)
+    done()
+  })
 })
