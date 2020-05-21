@@ -76,11 +76,11 @@ function findSindacoNome (string) {
 }
 
 /**
- * Build the sindaco from the input string.
- * @param string The string from which retrieve the sindaco information.
- * @returns Returns the sindaco object.
+ * Find the sindaco inzio carica
+ * @param {string} string The string from which retrieve the sindaco inizio carica field.
+ * @returns Returns the sindaco inizio carica.
  */
-exports.buildSindaco = function buildSindaco (string) {
+function findSindacoInizioCarica (string) {
   const contentWithoutParenthesis = exports.removeParenthesis(string)
   let stringBeforeDate = 'dal '
   if (S(contentWithoutParenthesis).contains('dall\'')) {
@@ -99,9 +99,18 @@ exports.buildSindaco = function buildSindaco (string) {
   const day = pad(date[0], 2)
   const month = pad(date[1], 2)
   const year = S(date[2]).left(4).s
+  return day + '/' + month + '/' + year
+}
+
+/**
+ * Build the sindaco from the input string.
+ * @param string The string from which retrieve the sindaco information.
+ * @returns Returns the sindaco object.
+ */
+exports.buildSindaco = function buildSindaco (string) {
   return {
     nome: findSindacoNome(string),
     partito: exports.getParenthesisContent(string),
-    inizioCarica: day + '/' + month + '/' + year
+    inizioCarica: findSindacoInizioCarica(string)
   }
 }

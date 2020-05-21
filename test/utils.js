@@ -107,4 +107,15 @@ describe('Utils', function () {
     assert.deepEqual(utils.buildSindaco(tdText), expected)
     done()
   })
+
+  it('buildSindaco should build the correct sindaco object in the case there is only the nome', function (done) {
+    const tdText = 'Renato Rizzo'
+    const expected = {
+      nome: 'Renato Rizzo',
+      partito: '',
+      inizioCarica: ''
+    }
+    assert.deepEqual(utils.buildSindaco(tdText), expected)
+    done()
+  })
 })
