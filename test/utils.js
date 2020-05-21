@@ -96,4 +96,15 @@ describe('Utils', function () {
     assert.deepEqual(utils.buildSindaco(tdText), expected)
     done()
   })
+
+  it('buildSindaco should build the correct sindaco object in the case of date with only one digit for the day', function (done) {
+    const tdText = 'Josi Gerardo Della Ragione (FreeBacoli) dal 9-6-2019'
+    const expected = {
+      nome: 'Josi Gerardo Della Ragione',
+      partito: 'FreeBacoli',
+      inizioCarica: '09/06/2019'
+    }
+    assert.deepEqual(utils.buildSindaco(tdText), expected)
+    done()
+  })
 })

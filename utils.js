@@ -96,7 +96,7 @@ exports.buildSindaco = function buildSindaco (string) {
     containingDate = S('01-01-' + containingDate)
   }
   const date = containingDate.splitLeft(sep)
-  const day = date[0]
+  const day = pad(date[0], 2)
   const month = pad(date[1], 2)
   const year = S(date[2]).left(4).s
   return {
