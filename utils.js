@@ -2,8 +2,8 @@ var S = require('string')
 
 /**
  * Count the number of the left zeros.
- * @param input The string that contains the number of zero to count.
- * @returns The number of the left zero of the input string.
+ * @param input The strings that contain the number of zero to count.
+ * @returns The number of the left zero of the input strings.
  */
 exports.countLeftZeros = function countLeftZeros (input) {
   var zeros = 0
@@ -81,7 +81,12 @@ function findSindacoNome (string) {
  * @returns Returns the sindaco object.
  */
 exports.buildSindaco = function buildSindaco (string) {
-  let containingDate = S(string).between(' dal ')
+  const contentWithoutParenthesis = exports.removeParenthesis(string)
+  let stringBeforeDate = 'dal '
+  if (S(contentWithoutParenthesis).contains('dall\'')) {
+    stringBeforeDate = 'dall\''
+  }
+  let containingDate = S(contentWithoutParenthesis).between(stringBeforeDate)
   let sep = '-'
   if (containingDate.count('-') > 1) {
     sep = '-'

@@ -85,4 +85,15 @@ describe('Utils', function () {
     assert.deepEqual(utils.buildSindaco(tdText), expected)
     done()
   })
+
+  it('buildSindaco should build the correct sindaco object in the case of date starting with dall\'', function (done) {
+    const tdText = 'Giovanni Enrico Caranzano (Lista civica "la Rinascita di Acceglio") dall\'11-6-2018'
+    const expected = {
+      nome: 'Giovanni Enrico Caranzano',
+      partito: 'Lista civica "la Rinascita di Acceglio"',
+      inizioCarica: '11/06/2018'
+    }
+    assert.deepEqual(utils.buildSindaco(tdText), expected)
+    done()
+  })
 })
