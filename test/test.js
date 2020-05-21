@@ -82,7 +82,7 @@ describe('Compendio Vicorum', function () {
       var i
       for (i = 0; i < docs.length; i++) {
         var doc = docs[i]
-        if (doc.sindaco) {
+        if (doc.sindaco && doc.sindaco.inizioCarica) {
           const inizioCarica = doc.sindaco.inizioCarica
           assert.match(inizioCarica, /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/\d{4}$/, 'The sindaco.inizioCarica field is not defined for ' + doc.nome)
         }
