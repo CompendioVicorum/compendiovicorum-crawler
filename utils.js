@@ -68,6 +68,9 @@ function pad (n, width, z) {
  * @returns Returns the sindaco name.
  */
 function findSindacoNome (string) {
+  if (!S(string).contains(' dal')) {
+    return string
+  }
   let sindacoName = S(string).between('', ' dal').s
   if (S(sindacoName).contains('(')) {
     sindacoName = exports.removeAllAfterParenthesis(sindacoName)
@@ -86,6 +89,11 @@ function findSindacoInizioCarica (string) {
   if (S(contentWithoutParenthesis).contains('dall\'')) {
     stringBeforeDate = 'dall\''
   }
+
+  if (!S(contentWithoutParenthesis).contains(stringBeforeDate)) {
+    return ''
+  }
+
   let containingDate = S(contentWithoutParenthesis).between(stringBeforeDate)
   let sep = '-'
   if (containingDate.count('-') > 1) {
