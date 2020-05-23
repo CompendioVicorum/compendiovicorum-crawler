@@ -109,6 +109,17 @@ describe('Utils', function () {
       done()
     })
 
+    it('of date with the month name', function (done) {
+      const tdText = 'Gian Mario Morello (lista civica Balocco e Bastia Insieme) dal 10 giugno 2018 (2º mandato)'
+      const expected = {
+        nome: 'Gian Mario Morello',
+        partito: 'lista civica Balocco e Bastia Insieme',
+        inizioCarica: '10/06/2018'
+      }
+      assert.deepEqual(utils.buildSindaco(tdText), expected)
+      done()
+    })
+
     it('there is only the nome', function (done) {
       const tdText = 'Renato Rizzo'
       const expected = {

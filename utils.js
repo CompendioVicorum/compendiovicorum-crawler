@@ -78,6 +78,67 @@ function findSindacoNome (string) {
   return sindacoName
 }
 
+const MONTH_NAMES = [{
+  name: 'gennaio',
+  value: 1
+},
+{
+  name: 'febbraio',
+  value: 2
+},
+{
+  name: 'marzo',
+  value: 3
+},
+{
+  name: 'aprile',
+  value: 4
+},
+{
+  name: 'maggio',
+  value: 5
+},
+{
+  name: 'giugno',
+  value: 6
+},
+{
+  name: 'luglio',
+  value: 7
+},
+{
+  name: 'agosto',
+  value: 8
+},
+{
+  name: 'settembre',
+  value: 9
+},
+{
+  name: 'ottobre',
+  value: 10
+},
+{
+  name: 'novembre',
+  value: 11
+},
+{
+  name: 'dicembre',
+  value: 12
+}]
+
+/**
+  * Replace the month with the corresponding month value.
+  * @param {string} string The string containing the month.
+  * @returns Returns the string with the replaced month.
+  */
+function replaceMonthNameWithDigit (string) {
+  MONTH_NAMES.forEach(month => {
+    string = string.replace(' ' + month.name + ' ', '-' + month.value + '-')
+  })
+  return string
+}
+
 /**
  * Find the sindaco inzio carica
  * @param {string} string The string from which retrieve the sindaco inizio carica field.
@@ -95,6 +156,7 @@ function findSindacoInizioCarica (string) {
   }
 
   let containingDate = S(contentWithoutParenthesis).between(stringBeforeDate)
+  containingDate = replaceMonthNameWithDigit(containingDate)
   let sep = '-'
   if (containingDate.count('-') > 1) {
     sep = '-'
