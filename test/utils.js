@@ -120,6 +120,17 @@ describe('Utils', function () {
       done()
     })
 
+    it('of date with the month name without the day', function (done) {
+      const tdText = 'Maria Rosa Gnocchi (lista civica) dal giugno 2015'
+      const expected = {
+        nome: 'Maria Rosa Gnocchi',
+        partito: 'lista civica',
+        inizioCarica: '01/06/2015'
+      }
+      assert.deepEqual(utils.buildSindaco(tdText), expected)
+      done()
+    })
+
     it('there is only the nome', function (done) {
       const tdText = 'Renato Rizzo'
       const expected = {

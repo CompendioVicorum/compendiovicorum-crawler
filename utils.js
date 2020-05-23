@@ -134,7 +134,7 @@ const MONTH_NAMES = [{
   */
 function replaceMonthNameWithDigit (string) {
   MONTH_NAMES.forEach(month => {
-    string = string.replace(' ' + month.name + ' ', '-' + month.value + '-')
+    string = string.replace(month.name, month.value)
   })
   return string
 }
@@ -162,6 +162,12 @@ function findSindacoInizioCarica (string) {
     sep = '-'
   } else if (containingDate.count('/') > 1) {
     sep = '/'
+  } else if (containingDate.count(' ') === 1) {
+    sep = ' '
+    const partialDate = containingDate.split(' ')
+    containingDate = S('01 ' + partialDate[0] + ' ' + partialDate[1])
+  } else if (containingDate.count(' ') > 1) {
+    sep = ' '
   } else {
     containingDate = S('01-01-' + containingDate)
   }
