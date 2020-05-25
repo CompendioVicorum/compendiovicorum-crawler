@@ -153,6 +153,17 @@ describe('Utils', function () {
       done()
     })
 
+    it('of date in DD/MM/YY format', function (done) {
+      const tdText = 'Roberto Valettini (lista civica Aulla nel cuore) dal 12-6-17'
+      const expected = {
+        nome: 'Roberto Valettini',
+        partito: 'lista civica Aulla nel cuore',
+        inizioCarica: '12/06/2017'
+      }
+      assert.deepEqual(utils.buildSindaco(tdText), expected)
+      done()
+    })
+
     it('there is only the nome', function (done) {
       const tdText = 'Renato Rizzo'
       const expected = {
