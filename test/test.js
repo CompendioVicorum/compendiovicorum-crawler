@@ -129,7 +129,7 @@ describe('Compendio Vicorum', function () {
         inizioCarica: '23/06/2014'
       }
       const expectedComuniConfinanti = ['Adelfia', 'Bitonto', 'Bitritto', 'Capurso', 'Giovinazzo', 'Modugno', 'Mola di Bari', 'Noicattaro', 'Triggiano', 'Valenzano']
-      assert.strictEqual(item.sindaco, expectedSindaco)
+      assert.deepEqual(item.sindaco, expectedSindaco)
       assert.strictEqual(item.dataIstituzione, '19 gennaio 1863')
       assert.strictEqual(item.latitudine, '41°07′31″N')
       assert.strictEqual(item.longitudine, '16°52′00″E')
@@ -137,8 +137,8 @@ describe('Compendio Vicorum', function () {
       assert.strictEqual(item.superficie, '117,39 km²')
       assert.strictEqual(item.abitanti, '319 579')
       assert.strictEqual(item.densita, '2 722,37 ab./km²')
-      assert.strictEqual(item.comuniConfinanti, expectedComuniConfinanti)
-      assert.strictEqual(item.codicePostale, generateAllCodPostaliBetweenTwo(121, 132, '70'))
+      assert.deepEqual(item.comuniConfinanti, expectedComuniConfinanti)
+      assert.deepEqual(item.codicePostale, generateAllCodPostaliBetweenTwo(121, 132, '70'))
       assert.strictEqual(item.prefisso, '080')
       assert.strictEqual(item.fusoOrario, 'UTC+1')
       assert.strictEqual(item.codiceIstat, '072006')
