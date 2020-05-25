@@ -131,6 +131,17 @@ describe('Utils', function () {
       done()
     })
 
+    it('of date with the month and the year in the MM/YYYY format', function (done) {
+      const tdText = 'Marco Corti (lista civica dal 1999) dal 05/2019'
+      const expected = {
+        nome: 'Marco Corti',
+        partito: 'lista civica dal 1999',
+        inizioCarica: '01/05/2019'
+      }
+      assert.deepEqual(utils.buildSindaco(tdText), expected)
+      done()
+    })
+
     it('there is only the nome', function (done) {
       const tdText = 'Renato Rizzo'
       const expected = {

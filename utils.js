@@ -158,19 +158,24 @@ function findSindacoInizioCarica (string) {
   let containingDate = S(contentWithoutParenthesis).between(stringBeforeDate)
   containingDate = replaceMonthNameWithDigit(containingDate)
   let sep = '-'
-  if (containingDate.count('-') > 1) {
+  if (containingDate.count('-') > 0) {
     sep = '-'
-  } else if (containingDate.count('/') > 1) {
+  } else if (containingDate.count('/') > 0) {
     sep = '/'
-  } else if (containingDate.count(' ') === 1) {
+  } else if (containingDate.count(' ') > 0) {
     sep = ' '
-    const partialDate = containingDate.split(' ')
-    containingDate = S('01 ' + partialDate[0] + ' ' + partialDate[1])
-  } else if (containingDate.count(' ') > 1) {
+  } else if (containingDate.count(' ') > 0) {
     sep = ' '
   } else {
     containingDate = S('01-01-' + containingDate)
   }
+
+  if (containingDate.count(sep) === 1) {
+    const partialDate = containingDate.split(sep)
+    containingDate = S('01-' + partialDate[0] + '-' + partialDate[1])
+    sep = '-'
+  }
+
   const date = containingDate.splitLeft(sep)
   const day = pad(date[0], 2)
   const month = pad(date[1], 2)
