@@ -176,6 +176,7 @@ function findSindacoInizioCarica (string) {
 
   let containingDate = S(contentWithoutParenthesis).between(stringBeforeDate)
   containingDate = replaceMonthNameWithDigit(containingDate)
+  containingDate = containingDate.replace('º', '')
   let sep = ''
 
   for (let i = 0; i < SEPARATORS.length; i++) {

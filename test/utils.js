@@ -175,6 +175,17 @@ describe('Utils', function () {
         assert.deepEqual(utils.buildSindaco(tdText), expected)
         done()
       })
+
+      it('with Dº month name YYYY format', function (done) {
+        const tdText = 'Francesco Crudele (centrodestra) dal 1º giugno 2015'
+        const expected = {
+          nome: 'Francesco Crudele',
+          partito: 'centrodestra',
+          inizioCarica: '01/06/2015'
+        }
+        assert.deepEqual(utils.buildSindaco(tdText), expected)
+        done()
+      })
     })
 
     it('of commissario prefettizio', function (done) {
