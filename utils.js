@@ -1,5 +1,7 @@
 var S = require('string')
 
+const SEPARATORS = ['/', '-', ' ', '.']
+
 /**
  * Count the number of the left zeros.
  * @param input The strings that contain the number of zero to count.
@@ -157,17 +159,19 @@ function findSindacoInizioCarica (string) {
 
   let containingDate = S(contentWithoutParenthesis).between(stringBeforeDate)
   containingDate = replaceMonthNameWithDigit(containingDate)
-  let sep = '-'
-  if (containingDate.count('/') > 0) {
-    sep = '/'
-  } else if (containingDate.count('-') > 0) {
-    sep = '-'
-  } else if (containingDate.count(' ') > 0) {
-    sep = ' '
-  } else if (containingDate.count(' ') > 0) {
-    sep = ' '
-  } else {
+  let sep = ''
+
+  for (let i = 0; i < SEPARATORS.length; i++) {
+    const separator = SEPARATORS[i]
+    if (containingDate.count(separator) > 0) {
+      sep = separator
+      break
+    }
+  }
+
+  if (sep === '') {
     containingDate = S('01-01-' + containingDate)
+    sep = '-'
   }
 
   if (containingDate.count(sep) === 1) {
