@@ -177,6 +177,13 @@ function findSindacoInizioCarica (string) {
   let containingDate = S(contentWithoutParenthesis).between(stringBeforeDate)
   containingDate = replaceMonthNameWithDigit(containingDate)
   containingDate = containingDate.replace('º', '')
+
+  // Handle bad case: "26-27 5 2019"
+  const matches = containingDate.match(/(\d?\d-\d?\d) (\d)* (\d\d\d\d)/)
+  if (matches) {
+    containingDate = S(matches[1]).between('', '-').s + ' ' + matches[2] + ' ' + matches[3]
+    containingDate = S(containingDate)
+  }
   let sep = ''
 
   for (let i = 0; i < SEPARATORS.length; i++) {

@@ -171,6 +171,16 @@ describe('Utils', function () {
         }
         assert.deepEqual(utils.buildSindaco(tdText), expected)
       })
+
+      it('with DD-DD month name YYYY format', function () {
+        const tdText = 'Daniele Colombo (Lista civica di centrosinistra "Partecipo per Carugo") dal 26-27 maggio 2019'
+        const expected = {
+          nome: 'Daniele Colombo',
+          partito: 'Lista civica di centrosinistra "Partecipo per Carugo"',
+          inizioCarica: '26/05/2019'
+        }
+        assert.deepEqual(utils.buildSindaco(tdText), expected)
+      })
     })
 
     it('of commissario prefettizio', function () {
