@@ -142,6 +142,17 @@ describe('Utils', function () {
       done()
     })
 
+    it('of date in DD/MM/YYYY format with also "-"', function (done) {
+      const tdText = "Gianpaolo Beretta (lista civica di centrosinistra Impegno per Borgo) dall'08/05/2012 - 2º mandato"
+      const expected = {
+        nome: 'Gianpaolo Beretta',
+        partito: 'lista civica di centrosinistra Impegno per Borgo',
+        inizioCarica: '08/05/2012'
+      }
+      assert.deepEqual(utils.buildSindaco(tdText), expected)
+      done()
+    })
+
     it('there is only the nome', function (done) {
       const tdText = 'Renato Rizzo'
       const expected = {
