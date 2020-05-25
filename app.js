@@ -226,7 +226,7 @@ function loadComuneInfo (data) {
       comune.longitudine = td.find('.longitude').first().text()
       // comune.coordinate = td;
     } else if (thText === 'Altitudine') {
-      comune.altitudine = tdText
+      comune.altitudine = tdText.trim()
     } else if (thText === 'Superficie') {
       comune.superficie = tdText
     } else if (thText === 'Abitanti') {
