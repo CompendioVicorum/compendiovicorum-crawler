@@ -6,15 +6,26 @@ var it = mocha.it
 var utils = require('../utils')
 
 describe('Utils', function () {
-  it('removeAllAfterParenthesis should remove all the text after the parenthesis', function (done) {
+  it('removeAllAfterParenthesis should remove all the text after the parenthesis', function () {
     assert.strictEqual(utils.removeAllAfterParenthesis('Test (text)'), 'Test')
-    done()
   })
 
-  it('getParenthesisContent should retrieve all the text in the parenthesis', function (done) {
-    assert.strictEqual(utils.getParenthesisContent('Test (text)'), 'text')
-    assert.strictEqual(utils.getParenthesisContent('Test'), '')
-    done()
+  describe('getParenthesisContent should', function () {
+    it('retrieve all the text in the parenthesis if the parenthesis exist', function () {
+      assert.strictEqual(utils.getParenthesisContent('Test (text)'), 'text')
+    })
+
+    it('return an empty string if the parenthesis don\'t exist', function () {
+      assert.strictEqual(utils.getParenthesisContent('Test'), '')
+    })
+
+    it('handle the case there are multiple parenthesis nested', function () {
+      assert.strictEqual(utils.getParenthesisContent('Test (text (1))'), 'text (1)')
+    })
+
+    it('handle the case there is a not closed parenthesis in the end', function () {
+      assert.strictEqual(utils.getParenthesisContent('Test (text (1) test'), 'text (1) test')
+    })
   })
 
   it('removeParenthesis should remove everything in the parenthesis', function (done) {

@@ -32,7 +32,24 @@ exports.removeAllAfterParenthesis = function removeAllAfterParenthesis (input) {
  * @returns The string between the parenthesis.
  */
 exports.getParenthesisContent = function getParenthesisContent (input) {
-  return S(input).between('(', ')').s
+  let startingIndex = input.indexOf('(')
+  if (startingIndex === -1) {
+    return ''
+  }
+
+  startingIndex++
+  let openingParenthesisCount = 1
+  for (let i = startingIndex + 1; i < input.length; i++) {
+    if (input[i] === ')') {
+      openingParenthesisCount--
+      if (openingParenthesisCount === 0) {
+        return input.substring(startingIndex, i)
+      }
+    } else if (input[i] === '(') {
+      openingParenthesisCount++
+    }
+  }
+  return input.substring(startingIndex)
 }
 
 /**
