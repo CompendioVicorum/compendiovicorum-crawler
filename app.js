@@ -7,9 +7,7 @@ var MongoClient = require('mongodb').MongoClient
 var config = require('./config')
 var utils = require('./utils')
 const cheerioOptions = {
-  xml: {
-    normalizeWhitespace: true
-  }
+  normalizeWhitespace: true
 }
 
 // Create a client with configuration
