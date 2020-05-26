@@ -153,7 +153,8 @@ const MONTH_NAMES = [{
   */
 function replaceMonthNameWithDigit (string) {
   MONTH_NAMES.forEach(month => {
-    string = string.replace(month.name, month.value)
+    const regex = new RegExp(month.name, 'i')
+    string = string.replace(regex, month.value)
   })
   return string
 }
