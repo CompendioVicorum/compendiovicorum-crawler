@@ -177,10 +177,6 @@ function loadComuneInfo (data) {
     var thText = th.text()
     var tdText = td.text()
 
-    if (comune.nome === 'Abetone Cutigliano') {
-      console.log(thText, ' => ', tdText)
-    }
-
     if (th.hasClass('sinottico_testata')) {
       comune.tipo = th.find('a').text()
       comune.nome = th
