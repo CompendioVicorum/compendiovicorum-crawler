@@ -218,6 +218,7 @@ function findSindacoInizioCarica (string) {
  * @returns Returns the sindaco object.
  */
 exports.buildSindaco = function buildSindaco (string) {
+  string = string.trim()
   return {
     nome: findSindacoNome(string),
     partito: exports.getParenthesisContent(string),

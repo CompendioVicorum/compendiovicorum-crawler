@@ -82,6 +82,16 @@ describe('Utils', function () {
         assert.deepEqual(utils.buildSindaco(tdText), expected)
       })
 
+      it('with only the year with empty space at the end', function () {
+        const tdText = 'Graziano Murada (Murada x Albosaggia Sindaco) dal 2018 '
+        const expected = {
+          nome: 'Graziano Murada',
+          partito: 'Murada x Albosaggia Sindaco',
+          inizioCarica: '01/01/2018'
+        }
+        assert.deepEqual(utils.buildSindaco(tdText), expected)
+      })
+
       it('starting with dall\'', function () {
         const tdText = 'Giovanni Enrico Caranzano (Lista civica "la Rinascita di Acceglio") dall\'11-6-2018'
         const expected = {
