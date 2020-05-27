@@ -178,7 +178,7 @@ function loadComuneInfo (data) {
     var th = $(element).find('th')
     var td = $(element).find('td')
     var thText = th.text()
-    var tdText = td.text()
+    var tdText = td.text().trim()
 
     if (th.hasClass('sinottico_testata')) {
       comune.tipo = th.find('a').text()
@@ -207,32 +207,32 @@ function loadComuneInfo (data) {
           .s
       }
     } else if (thText === 'Stato') {
-      comune.stato = tdText.trim()
+      comune.stato = tdText
     } else if (thText === 'Regione') {
-      comune.regione = tdText.trim()
+      comune.regione = tdText
     } else if (thText === 'Provincia') {
-      comune.provincia = tdText.trim()
+      comune.provincia = tdText
     } else if (thText === 'Città metropolitana') {
-      comune.cittaMetropolitana = tdText.trim()
+      comune.cittaMetropolitana = tdText
     } else if (thText === 'Capoluogo') {
-      comune.capoluogo = tdText.trim()
+      comune.capoluogo = tdText
     } else if (thText === 'Sindaco') {
       comune.sindaco = utils.buildSindaco(tdText)
     } else if (thText === 'Data di istituzione') {
-      comune.dataIstituzione = tdText.trim()
+      comune.dataIstituzione = tdText
     } else if (thText === 'Coordinate' || thText === 'Coordinatedel capoluogo') {
       comune.latitudine = td.find('.latitude').first().text()
       comune.longitudine = td.find('.longitude').first().text()
       // comune.coordinate = td;
     } else if (thText === 'Altitudine') {
-      comune.altitudine = tdText.trim()
+      comune.altitudine = tdText
     } else if (thText === 'Superficie') {
-      comune.superficie = tdText.trim()
+      comune.superficie = tdText
     } else if (thText === 'Abitanti') {
       comune.abitanti = utils.removeParenthesis(tdText)
       comune.censimento = utils.getParenthesisContent(tdText)
     } else if (thText === 'Densità') {
-      comune.densita = tdText.trim()
+      comune.densita = tdText
     } else if (thText === 'Frazioni') {
       comune.frazioni = []
       var frazioni = tdText.split(',')
@@ -270,7 +270,7 @@ function loadComuneInfo (data) {
         comune.codicePostale.push(tdText)
       }
     } else if (thText === 'Prefisso') {
-      comune.prefisso = tdText.trim()
+      comune.prefisso = tdText
     } else if (thText === 'Fuso orario') {
       comune.fusoOrario = tdText
     } else if (thText === 'ISO 3166-2') {
