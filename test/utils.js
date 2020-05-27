@@ -52,14 +52,26 @@ describe('Utils', function () {
         assert.deepEqual(utils.buildSindaco(tdText), expected)
       })
 
-      it('with two mandates', function () {
-        const tdText = "Nicola Ottaviani (Lega) dal 21-5-2012 (2º mandato dall'11-6-2017)"
-        const expected = {
-          nome: 'Nicola Ottaviani',
-          partito: 'Lega',
-          inizioCarica: '21/05/2012'
-        }
-        assert.deepEqual(utils.buildSindaco(tdText), expected)
+      describe('with two mandates', function () {
+        it('with the second one between parenthesis', function () {
+          const tdText = "Nicola Ottaviani (Lega) dal 21-5-2012 (2º mandato dall'11-6-2017)"
+          const expected = {
+            nome: 'Nicola Ottaviani',
+            partito: 'Lega',
+            inizioCarica: '21/05/2012'
+          }
+          assert.deepEqual(utils.buildSindaco(tdText), expected)
+        })
+
+        it('with the second one after "riconfermato" word', function () {
+          const tdText = 'Antonio Saggese (lista civica) dal 16-5-2011 riconfermato il 5/6/2016'
+          const expected = {
+            nome: 'Antonio Saggese',
+            partito: 'lista civica',
+            inizioCarica: '16/05/2011'
+          }
+          assert.deepEqual(utils.buildSindaco(tdText), expected)
+        })
       })
 
       it('with DD/MM/YYYY format', function () {

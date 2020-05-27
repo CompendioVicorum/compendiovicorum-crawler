@@ -176,6 +176,11 @@ function findSindacoInizioCarica (string) {
   }
 
   let containingDate = S(contentWithoutParenthesis).between(stringBeforeDate)
+
+  if (containingDate.contains(' riconfermato')) {
+    containingDate = containingDate.left(containingDate.indexOf(' riconfermato'))
+  }
+
   containingDate = replaceMonthNameWithDigit(containingDate)
   containingDate = containingDate.replace('º', '')
 
