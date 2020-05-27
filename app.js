@@ -6,6 +6,9 @@ var MongoClient = require('mongodb').MongoClient
 
 var config = require('./config')
 var utils = require('./utils')
+const cheerioOptions = {
+  normalizeWhitespace: true
+}
 
 // Create a client with configuration
 var mediaWikiClient = new Bot({
@@ -72,7 +75,7 @@ MongoClient.connect(url, function (err, client) {
             return
           }
 
-          var $ = cheerio.load(data.parse.text['*'])
+          var $ = cheerio.load(data.parse.text['*'], cheerioOptions)
 
           // Convert to a normal array
           var tr = []
@@ -170,16 +173,12 @@ function loadComuneInfo (data) {
 
   console.log("Parsing info of '" + comune.nome + "'")
 
-  var $ = cheerio.load(html)
+  var $ = cheerio.load(html, cheerioOptions)
   $('table.sinottico > tbody > tr').each(function (index, element) {
     var th = $(element).find('th')
     var td = $(element).find('td')
     var thText = th.text()
     var tdText = td.text()
-
-    if (comune.nome === 'Abetone Cutigliano') {
-      console.log(thText, ' => ', tdText)
-    }
 
     if (th.hasClass('sinottico_testata')) {
       comune.tipo = th.find('a').text()
@@ -228,7 +227,7 @@ function loadComuneInfo (data) {
     } else if (thText === 'Altitudine') {
       comune.altitudine = tdText.trim()
     } else if (thText === 'Superficie') {
-      comune.superficie = tdText
+      comune.superficie = tdText.trim()
     } else if (thText === 'Abitanti') {
       comune.abitanti = utils.removeParenthesis(tdText)
       comune.censimento = utils.getParenthesisContent(tdText)

@@ -122,6 +122,16 @@ describe('Utils', function () {
         assert.deepEqual(utils.buildSindaco(tdText), expected)
       })
 
+      it('with the month name with the first letter uppercase', function () {
+        const tdText = 'Alessio Nizzi (lista Uniti per Fiumalbo) dal 27 Maggio 2019'
+        const expected = {
+          nome: 'Alessio Nizzi',
+          partito: 'lista Uniti per Fiumalbo',
+          inizioCarica: '27/05/2019'
+        }
+        assert.deepEqual(utils.buildSindaco(tdText), expected)
+      })
+
       it('with the month name without the day', function () {
         const tdText = 'Maria Rosa Gnocchi (lista civica) dal giugno 2015'
         const expected = {
