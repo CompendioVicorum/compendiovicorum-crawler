@@ -1,7 +1,5 @@
 var S = require('string')
 
-const SEPARATORS = ['/', '-', ' ', '.']
-
 /**
  * Count the number of the left zeros.
  * @param input The strings that contain the number of zero to count.
@@ -185,33 +183,31 @@ function findSindacoInizioCarica (string) {
   containingDate = containingDate.replace('º', '')
 
   // Handle bad case: "26-27 5 2019"
-  const matches = containingDate.match(/(\d?\d-\d?\d) (\d)* (\d\d\d\d)/)
+  let matches = containingDate.match(/(\d?\d-\d?\d) (\d)* (\d\d\d\d)/)
   if (matches) {
     containingDate = S(matches[1]).between('', '-').s + ' ' + matches[2] + ' ' + matches[3]
     containingDate = S(containingDate)
   }
-  let sep = ''
 
-  for (let i = 0; i < SEPARATORS.length; i++) {
-    const separator = SEPARATORS[i]
-    if (containingDate.count(separator) > 0) {
-      sep = separator
-      break
+  const regex = new RegExp(/((\d?\d)(\/|-| |\.)(\d?\d)(\/|-| |\.)(\d?\d?\d\d)|(\d?\d)(\/|-| |\.)(\d?\d?\d\d)|(\d\d\d\d))/)
+  matches = regex.exec(containingDate.s)
+
+  if (matches === null) {
+    return ''
+  } else {
+    if (matches[2] && matches[4] && matches[6]) {
+      // DD-MM-YYYY
+      containingDate = S(matches[2] + '-' + matches[4] + '-' + matches[6])
+    } else if (matches[7] && matches[9]) {
+      // MM-YYYY
+      containingDate = S('01-' + matches[7] + '-' + matches[9])
+    } else if (matches[10]) {
+      // YYYY
+      containingDate = S('01-01-' + matches[10])
     }
   }
 
-  if (sep === '') {
-    containingDate = S('01-01-' + containingDate)
-    sep = '-'
-  }
-
-  if (containingDate.count(sep) === 1) {
-    const partialDate = containingDate.split(sep)
-    containingDate = S('01-' + partialDate[0] + '-' + partialDate[1])
-    sep = '-'
-  }
-
-  const date = containingDate.splitLeft(sep)
+  const date = containingDate.splitLeft('-')
   const day = pad(date[0], 2)
   const month = pad(date[1], 2)
   let year = S(date[2]).left(4).s

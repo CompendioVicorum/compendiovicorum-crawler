@@ -144,6 +144,16 @@ describe('Utils', function () {
         assert.deepEqual(utils.buildSindaco(tdText), expected)
       })
 
+      it('with the month name with also the "-" character after', function () {
+        const tdText = 'Andrea Checchi (Partito Democratico) dal 26 giugno 2017 - (2º mandato)'
+        const expected = {
+          nome: 'Andrea Checchi',
+          partito: 'Partito Democratico',
+          inizioCarica: '26/06/2017'
+        }
+        assert.deepEqual(utils.buildSindaco(tdText), expected)
+      })
+
       it('with the month name without the day', function () {
         const tdText = 'Maria Rosa Gnocchi (lista civica) dal giugno 2015'
         const expected = {
