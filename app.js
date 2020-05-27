@@ -270,7 +270,7 @@ function loadComuneInfo (data) {
         comune.codicePostale.push(tdText)
       }
     } else if (thText === 'Prefisso') {
-      comune.prefisso = tdText
+      comune.prefisso = tdText.trim()
     } else if (thText === 'Fuso orario') {
       comune.fusoOrario = tdText
     } else if (thText === 'ISO 3166-2') {
