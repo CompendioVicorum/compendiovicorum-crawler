@@ -149,7 +149,7 @@ describe('Compendio Vicorum', function () {
       assert.strictEqual(item.nomeAbitanti, 'baresi')
       assert.strictEqual(item.patrono, 'San Nicola, San Sabino (compatrono), Madonna Odigitria')
       assert.strictEqual(item.giornoFestivo, '8 maggio - San Nicola')
-      assert.strictEqual(item.sitoIstituzionale, 'http://www.comune.bari.it/')
+      assert.strictEqual(item.sitoIstituzionale, 'http://www.comune.bari.it')
       done()
     })
   })
