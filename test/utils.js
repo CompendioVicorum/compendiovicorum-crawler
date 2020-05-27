@@ -174,12 +174,22 @@ describe('Utils', function () {
         assert.deepEqual(utils.buildSindaco(tdText), expected)
       })
 
-      it('with DD/MM/YY format', function () {
+      it('with DD-M-YY format', function () {
         const tdText = 'Roberto Valettini (lista civica Aulla nel cuore) dal 12-6-17'
         const expected = {
           nome: 'Roberto Valettini',
           partito: 'lista civica Aulla nel cuore',
           inizioCarica: '12/06/2017'
+        }
+        assert.deepEqual(utils.buildSindaco(tdText), expected)
+      })
+
+      it('with DD-MM-YY format with the YY equals to the first two chars of the current year', function () {
+        const tdText = 'Commissario straordinario dal 19-05-20'
+        const expected = {
+          nome: 'Commissario straordinario',
+          partito: '',
+          inizioCarica: '19/05/2020'
         }
         assert.deepEqual(utils.buildSindaco(tdText), expected)
       })

@@ -214,7 +214,10 @@ function findSindacoInizioCarica (string) {
   const date = containingDate.splitLeft(sep)
   const day = pad(date[0], 2)
   const month = pad(date[1], 2)
-  const year = S(date[2]).left(4).ensureLeft(new Date().getFullYear().toString().slice(-2)).s
+  let year = S(date[2]).left(4).s
+  if (year.length === 2) {
+    year = new Date().getFullYear().toString().slice(-2) + year
+  }
   return day + '/' + month + '/' + year
 }
 
