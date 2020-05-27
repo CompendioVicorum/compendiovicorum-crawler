@@ -233,7 +233,7 @@ function loadComuneInfo (data) {
       comune.abitanti = utils.removeParenthesis(tdText)
       comune.censimento = utils.getParenthesisContent(tdText)
     } else if (thText === 'Densità') {
-      comune.densita = tdText
+      comune.densita = tdText.trim()
     } else if (thText === 'Frazioni') {
       comune.frazioni = []
       var frazioni = tdText.split(',')
