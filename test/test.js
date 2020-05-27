@@ -144,7 +144,7 @@ describe('Compendio Vicorum', function () {
       assert.strictEqual(item.codiceIstat, '072006')
       assert.strictEqual(item.codCatastale, 'A662')
       assert.strictEqual(item.targa, 'BA')
-      assert.strictEqual(item.classificazioneSismica, 'zona 3')
+      assert.strictEqual(item.classificazioneSismica, 'zona 3 (sismicità bassa)')
       assert.strictEqual(item.classificazioneClimatica, 'zona C, 1 185 GG')
       assert.strictEqual(item.nomeAbitanti, 'baresi')
       assert.strictEqual(item.patrono, 'San Nicola, San Sabino (compatrono), Madonna Odigitria')
