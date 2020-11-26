@@ -2,8 +2,8 @@ var S = require('string')
 
 /**
  * Count the number of the left zeros.
- * @param input The string that contains the number of zero to count.
- * @returns The number of the left zero of the input string.
+ * @param input The strings that contain the number of zero to count.
+ * @returns The number of the left zero of the input strings.
  */
 exports.countLeftZeros = function countLeftZeros (input) {
   var zeros = 0
@@ -30,11 +30,28 @@ exports.removeAllAfterParenthesis = function removeAllAfterParenthesis (input) {
  * @returns The string between the parenthesis.
  */
 exports.getParenthesisContent = function getParenthesisContent (input) {
-  return S(input).between('(', ')').s
+  let startingIndex = input.indexOf('(')
+  if (startingIndex === -1) {
+    return ''
+  }
+
+  startingIndex++
+  let openingParenthesisCount = 1
+  for (let i = startingIndex + 1; i < input.length; i++) {
+    if (input[i] === ')') {
+      openingParenthesisCount--
+      if (openingParenthesisCount === 0) {
+        return input.substring(startingIndex, i)
+      }
+    } else if (input[i] === '(') {
+      openingParenthesisCount++
+    }
+  }
+  return input.substring(startingIndex)
 }
 
 /**
- * Remove the brackets from the input string.
+ * Remove the parenthesis from the input string.
  * @returns The input string without the parenthesis.
  */
 exports.removeParenthesis = function removeParenthesis (input) {
@@ -47,4 +64,169 @@ exports.removeParenthesis = function removeParenthesis (input) {
  */
 exports.removeBrackets = function removeBrackets (input) {
   return input.replace(/ *\[[^)]*\] */g, '') // remove [] and everything in them
+}
+
+/**
+ * Pad the given string for the given width for the given symbol.
+ * @param n The string to pad.
+ * @param width The width of the padding.
+ * @param z The symbol to use for the padding.
+ * @returns The padded string.
+ */
+function pad (n, width, z) {
+  z = z || '0'
+  n = n + ''
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
+}
+
+/**
+ * Find the sindaco name.
+ * @param string The string from which retrieve the sindaco name.
+ * @returns Returns the sindaco name.
+ */
+function findSindacoNome (string) {
+  if (!S(string).contains(' dal')) {
+    return string
+  }
+  let sindacoName = S(string).between('', ' dal').s
+  if (S(sindacoName).contains('(')) {
+    sindacoName = exports.removeAllAfterParenthesis(sindacoName)
+  }
+  return sindacoName
+}
+
+const MONTH_NAMES = [{
+  name: 'gennaio',
+  value: 1
+},
+{
+  name: 'febbraio',
+  value: 2
+},
+{
+  name: 'marzo',
+  value: 3
+},
+{
+  name: 'aprile',
+  value: 4
+},
+{
+  name: 'maggio',
+  value: 5
+},
+{
+  name: 'giugno',
+  value: 6
+},
+{
+  name: 'luglio',
+  value: 7
+},
+{
+  name: 'agosto',
+  value: 8
+},
+{
+  name: 'settembre',
+  value: 9
+},
+{
+  name: 'ottobre',
+  value: 10
+},
+{
+  name: 'novembre',
+  value: 11
+},
+{
+  name: 'dicembre',
+  value: 12
+}]
+
+/**
+  * Replace the month with the corresponding month value.
+  * @param {string} string The string containing the month.
+  * @returns Returns the string with the replaced month.
+  */
+function replaceMonthNameWithDigit (string) {
+  MONTH_NAMES.forEach(month => {
+    const regex = new RegExp(month.name, 'i')
+    string = string.replace(regex, month.value)
+  })
+  return string
+}
+
+/**
+ * Find the sindaco inzio carica
+ * @param {string} string The string from which retrieve the sindaco inizio carica field.
+ * @returns Returns the sindaco inizio carica.
+ */
+function findSindacoInizioCarica (string) {
+  const contentWithoutParenthesis = exports.removeParenthesis(string)
+  let stringBeforeDate = 'dal '
+  if (S(contentWithoutParenthesis).contains('dall\'')) {
+    stringBeforeDate = 'dall\''
+  }
+
+  if (!S(contentWithoutParenthesis).contains(stringBeforeDate)) {
+    return ''
+  }
+
+  let containingDate = S(contentWithoutParenthesis).between(stringBeforeDate)
+
+  if (containingDate.contains(' riconfermato')) {
+    containingDate = containingDate.left(containingDate.indexOf(' riconfermato'))
+  }
+
+  containingDate = replaceMonthNameWithDigit(containingDate)
+  containingDate = containingDate.replace('º', '')
+
+  // Handle bad case: "26-27 5 2019"
+  let matches = containingDate.match(/(\d?\d-\d?\d) (\d)* (\d\d\d\d)/)
+  if (matches) {
+    containingDate = S(matches[1]).between('', '-').s + ' ' + matches[2] + ' ' + matches[3]
+    containingDate = S(containingDate)
+  }
+
+  const regex = new RegExp(/((\d?\d)(\/|-| |\.)(\d?\d)(\/|-| |\.)(\d?\d?\d\d)|(\d?\d)(\/|-| |\.)(\d?\d?\d\d)|(\d\d\d\d))/)
+  matches = regex.exec(containingDate.s)
+
+  if (matches === null) {
+    return ''
+  } else {
+    if (matches[2] && matches[4] && matches[6]) {
+      // DD-MM-YYYY
+      containingDate = S(matches[2] + '-' + matches[4] + '-' + matches[6])
+    } else if (matches[7] && matches[9]) {
+      // MM-YYYY
+      containingDate = S('01-' + matches[7] + '-' + matches[9])
+    } else if (matches[10]) {
+      // YYYY
+      containingDate = S('01-01-' + matches[10])
+    }
+  }
+
+  const date = containingDate.splitLeft('-')
+  const day = pad(date[0], 2)
+  const month = pad(date[1], 2)
+  let year = S(date[2]).left(4).s
+  if (year.length === 2) {
+    year = new Date().getFullYear().toString().slice(-2) + year
+  }
+  return day + '/' + month + '/' + year
+}
+
+/**
+ * Build the sindaco from the input string.
+ * @param string The string from which retrieve the sindaco information.
+ * @returns Returns the sindaco object.
+ */
+exports.buildSindaco = function buildSindaco (string) {
+  string = string.trim()
+  return {
+    nome: findSindacoNome(string),
+    partito: exports.getParenthesisContent(string),
+    inizioCarica: findSindacoInizioCarica(string)
+  }
 }

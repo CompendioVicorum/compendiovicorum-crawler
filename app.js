@@ -6,9 +6,13 @@ var MongoClient = require('mongodb').MongoClient
 
 var config = require('./config')
 var utils = require('./utils')
+const cheerioOptions = {
+  normalizeWhitespace: true
+}
 
 // Create a client with configuration
 var mediaWikiClient = new Bot({
+  protocol: 'https',
   server: 'it.wikipedia.org', // host name of MediaWiki-powered site
   path: '/w', // path to api.php script
   debug: false // is more verbose when set to true
@@ -71,7 +75,7 @@ MongoClient.connect(url, function (err, client) {
             return
           }
 
-          var $ = cheerio.load(data.parse.text['*'])
+          var $ = cheerio.load(data.parse.text['*'], cheerioOptions)
 
           // Convert to a normal array
           var tr = []
@@ -169,16 +173,12 @@ function loadComuneInfo (data) {
 
   console.log("Parsing info of '" + comune.nome + "'")
 
-  var $ = cheerio.load(html)
+  var $ = cheerio.load(html, cheerioOptions)
   $('table.sinottico > tbody > tr').each(function (index, element) {
     var th = $(element).find('th')
     var td = $(element).find('td')
     var thText = th.text()
-    var tdText = td.text()
-
-    if (comune.nome === 'Abetone Cutigliano') {
-      console.log(thText, ' => ', tdText)
-    }
+    var tdText = td.text().trim()
 
     if (th.hasClass('sinottico_testata')) {
       comune.tipo = th.find('a').text()
@@ -195,7 +195,7 @@ function loadComuneInfo (data) {
       comune.stemma = S(stemma)
         .left(stemma.lastIndexOf('/'))
         .replaceAll('thumb/', '')
-        .ensureLeft('http:')
+        .ensureLeft('https:')
         .s
 
       if (img.length > 1) {
@@ -203,25 +203,23 @@ function loadComuneInfo (data) {
         comune.bandiera = S(bandiera)
           .left(bandiera.lastIndexOf('/'))
           .replaceAll('thumb/', '')
-          .ensureLeft('http:')
+          .ensureLeft('https:')
           .s
       }
     } else if (thText === 'Stato') {
-      comune.stato = tdText.trim()
+      comune.stato = tdText
     } else if (thText === 'Regione') {
-      comune.regione = tdText.trim()
+      comune.regione = tdText
     } else if (thText === 'Provincia') {
-      comune.provincia = tdText.trim()
+      comune.provincia = tdText
     } else if (thText === 'Città metropolitana') {
-      comune.cittaMetropolitana = tdText.trim()
+      comune.cittaMetropolitana = tdText
     } else if (thText === 'Capoluogo') {
-      comune.capoluogo = tdText.trim()
+      comune.capoluogo = tdText
     } else if (thText === 'Sindaco') {
-      comune.sindaco = {
-        nome: utils.removeAllAfterParenthesis(tdText),
-        partito: utils.getParenthesisContent(tdText),
-        inizioCarica: S(tdText).right(10).s
-      }
+      comune.sindaco = utils.buildSindaco(tdText)
+    } else if (thText === 'Data di istituzione') {
+      comune.dataIstituzione = tdText
     } else if (thText === 'Coordinate' || thText === 'Coordinatedel capoluogo') {
       comune.latitudine = td.find('.latitude').first().text()
       comune.longitudine = td.find('.longitude').first().text()
