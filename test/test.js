@@ -1,17 +1,17 @@
-var chai = require('chai')
-var assert = chai.assert // Using Assert style
-var mocha = require('mocha')
-var describe = mocha.describe
-var it = mocha.it
-var before = mocha.before
-var after = mocha.after
-var MongoClient = require('mongodb').MongoClient
-var config = require('../config')
+const chai = require('chai')
+const assert = chai.assert // Using Assert style
+const mocha = require('mocha')
+const describe = mocha.describe
+const it = mocha.it
+const before = mocha.before
+const after = mocha.after
+const MongoClient = require('mongodb').MongoClient
+const config = require('../config')
 
 // Connection URL
-var mongodb = config.mongodb
+const mongodb = config.mongodb
 
-var url = 'mongodb://'
+let url = 'mongodb://'
 
 if (mongodb.auth) {
   url += mongodb.username + ':' + mongodb.password + '@'
@@ -20,7 +20,7 @@ if (mongodb.auth) {
 url += mongodb.server + ':' + mongodb.port
 
 function generateAllCodPostaliBetweenTwo (start, end, prefix = '00') {
-  var output = []
+  const output = []
   for (; start <= end; start++) {
     output.push(prefix + start)
   }
@@ -63,12 +63,12 @@ describe('Compendio Vicorum', function () {
     // Read the basic information about the comune
     collection.find({}).toArray(function (err, docs) {
       assert.strictEqual(err, null)
-      var i
+      let i
       for (i = 0; i < docs.length; i++) {
-        var doc = docs[i]
-        var j
+        const doc = docs[i]
+        let j
         for (j = 0; j < propertiesToCheck.length; j++) {
-          var propertyToCheck = propertiesToCheck[j]
+          const propertyToCheck = propertiesToCheck[j]
           assert.isDefined(doc[propertyToCheck], 'The ' + propertyToCheck + ' field is not defined for ' + doc.nome)
         }
       }
@@ -79,9 +79,9 @@ describe('Compendio Vicorum', function () {
   it('should retrieve the sindaco.inizioCarica field in the right format', function (done) {
     collection.find({}).toArray(function (err, docs) {
       assert.strictEqual(err, null)
-      var i
+      let i
       for (i = 0; i < docs.length; i++) {
-        var doc = docs[i]
+        const doc = docs[i]
         if (doc.sindaco && doc.sindaco.inizioCarica) {
           const inizioCarica = doc.sindaco.inizioCarica
           assert.match(inizioCarica, /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/\d{4}$/, 'The sindaco.inizioCarica field is not defined for ' + doc.nome)
@@ -134,9 +134,9 @@ describe('Compendio Vicorum', function () {
       assert.strictEqual(item.latitudine, '41°07′31″N')
       assert.strictEqual(item.longitudine, '16°52′00″E')
       assert.strictEqual(item.altitudine, '5 m s.l.m.')
-      assert.strictEqual(item.superficie, '117,39 km²')
-      assert.strictEqual(item.abitanti, '319 579')
-      assert.strictEqual(item.densita, '2 722,37 ab./km²')
+      assert.strictEqual(item.superficie, '116,17 km²')
+      assert.strictEqual(item.abitanti, '320 730')
+      assert.strictEqual(item.densita, '2 760,87 ab./km²')
       assert.deepEqual(item.comuniConfinanti, expectedComuniConfinanti)
       assert.deepEqual(item.codicePostale, generateAllCodPostaliBetweenTwo(121, 132, '70'))
       assert.strictEqual(item.prefisso, '080')

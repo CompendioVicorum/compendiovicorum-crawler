@@ -1,4 +1,4 @@
-var S = require('string')
+const S = require('string')
 
 /**
  * Count the number of the left zeros.
@@ -6,7 +6,7 @@ var S = require('string')
  * @returns The number of the left zero of the input strings.
  */
 exports.countLeftZeros = function countLeftZeros (input) {
-  var zeros = 0
+  let zeros = 0
   if (input.length > 1) {
     while (S(input[0]).startsWith(0) && S(input[1]).startsWith(0)) {
       input[0] = S(input[0]).chompLeft('0').s
@@ -182,14 +182,14 @@ function findSindacoInizioCarica (string) {
   containingDate = replaceMonthNameWithDigit(containingDate)
   containingDate = containingDate.replace('º', '')
 
-  // Handle bad case: "26-27 5 2019"
-  let matches = containingDate.match(/(\d?\d-\d?\d) (\d)* (\d\d\d\d)/)
+  // Handle bad case: "26-27 5 2019" or "26/27 5 2019"
+  let matches = containingDate.match(/(\d?\d(-|\/)\d?\d) (\d)* (\d\d\d\d)/)
   if (matches) {
-    containingDate = S(matches[1]).between('', '-').s + ' ' + matches[2] + ' ' + matches[3]
+    containingDate = S(matches[1]).between('', matches[2]).s + ' ' + matches[3] + ' ' + matches[4]
     containingDate = S(containingDate)
   }
 
-  const regex = new RegExp(/((\d?\d)(\/|-| |\.)(\d?\d)(\/|-| |\.)(\d?\d?\d\d)|(\d?\d)(\/|-| |\.)(\d?\d?\d\d)|(\d\d\d\d))/)
+  const regex = /((\d?\d)(\/|-| |\.)(\d?\d)(\/|-| |\.)(\d?\d?\d\d)|(\d?\d)(\/|-| |\.)(\d?\d?\d\d)|(\d\d\d\d))/
   matches = regex.exec(containingDate.s)
 
   if (matches === null) {

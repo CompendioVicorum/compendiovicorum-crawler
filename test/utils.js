@@ -1,9 +1,9 @@
-var chai = require('chai')
-var assert = chai.assert // Using Assert style
-var mocha = require('mocha')
-var describe = mocha.describe
-var it = mocha.it
-var utils = require('../utils')
+const chai = require('chai')
+const assert = chai.assert // Using Assert style
+const mocha = require('mocha')
+const describe = mocha.describe
+const it = mocha.it
+const utils = require('../utils')
 
 describe('Utils', function () {
   it('removeAllAfterParenthesis should remove all the text after the parenthesis', function () {
@@ -230,6 +230,16 @@ describe('Utils', function () {
           nome: 'Daniele Colombo',
           partito: 'Lista civica di centrosinistra "Partecipo per Carugo"',
           inizioCarica: '26/05/2019'
+        }
+        assert.deepEqual(utils.buildSindaco(tdText), expected)
+      })
+
+      it('with DD/DD month name YYYY format', function () {
+        const tdText = 'Sergio Finato ([lista civica Bene Comune] - [lista civica Ambiente Comune]) dal 20/21 settembre 2020'
+        const expected = {
+          nome: 'Sergio Finato',
+          partito: '[lista civica Bene Comune] - [lista civica Ambiente Comune]',
+          inizioCarica: '20/09/2020'
         }
         assert.deepEqual(utils.buildSindaco(tdText), expected)
       })
