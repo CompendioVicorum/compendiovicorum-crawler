@@ -1,17 +1,17 @@
-var Bot = require('nodemw')
-var async = require('async')
-var cheerio = require('cheerio')
-var S = require('string')
-var MongoClient = require('mongodb').MongoClient
+const Bot = require('nodemw')
+const async = require('async')
+const cheerio = require('cheerio')
+const S = require('string')
+const MongoClient = require('mongodb').MongoClient
 
-var config = require('./config')
-var utils = require('./utils')
+const config = require('./config')
+const utils = require('./utils')
 const cheerioOptions = {
   normalizeWhitespace: true
 }
 
 // Create a client with configuration
-var mediaWikiClient = new Bot({
+const mediaWikiClient = new Bot({
   protocol: 'https',
   server: 'it.wikipedia.org', // host name of MediaWiki-powered site
   path: '/w', // path to api.php script
@@ -19,9 +19,9 @@ var mediaWikiClient = new Bot({
 })
 
 // Connection URL
-var mongodb = config.mongodb
+const mongodb = config.mongodb
 
-var url = 'mongodb://'
+let url = 'mongodb://'
 
 if (mongodb.auth) {
   url += mongodb.username + ':' + mongodb.password + '@'
@@ -37,8 +37,8 @@ MongoClient.connect(url, function (err, client) {
     console.log('Connected correctly to server')
   }
 
-  var db = client.db(mongodb.database)
-  var collection = db.collection(mongodb.collection)
+  const db = client.db(mongodb.database)
+  const collection = db.collection(mongodb.collection)
   collection.createIndex({ nome: 1 }, function (err) {
     if (err) {
       console.error('Error creating the index.')
@@ -59,8 +59,8 @@ MongoClient.connect(url, function (err, client) {
     function (data, callback) {
       // Iterate over lists
       async.each(data, function (comuniList, seriesCallback) {
-        var title = comuniList.title
-        var params = {
+        const title = comuniList.title
+        const params = {
           action: 'parse',
           page: title,
           format: 'json',
@@ -75,10 +75,10 @@ MongoClient.connect(url, function (err, client) {
             return
           }
 
-          var $ = cheerio.load(data.parse.text['*'], cheerioOptions)
+          const $ = cheerio.load(data.parse.text['*'], cheerioOptions)
 
           // Convert to a normal array
-          var tr = []
+          const tr = []
 
           $('table.wikitable tr').each(function (index, element) {
             // if(index < 2)
@@ -86,7 +86,7 @@ MongoClient.connect(url, function (err, client) {
           })
 
           async.each(tr, function (element, seriesCallback2) {
-            var comunePage = $(element).find('td a').attr('title')
+            const comunePage = $(element).find('td a').attr('title')
             if (comunePage) {
               console.log("Loading '" + comunePage + "'")
               callApiForComune(comunePage, seriesCallback2, collection)
@@ -123,7 +123,7 @@ MongoClient.connect(url, function (err, client) {
  * @param collection The collection that contains the data.
  */
 function callApiForComune (comunePage, seriesCallback, collection) {
-  var params = {
+  const params = {
     action: 'parse',
     page: comunePage,
     format: 'json',
@@ -140,9 +140,9 @@ function callApiForComune (comunePage, seriesCallback, collection) {
     }
 
     // Load all the info about the comuni
-    var comune = loadComuneInfo(data)
+    const comune = loadComuneInfo(data)
 
-    var criteria = {
+    const criteria = {
       nome: comune.nome,
       provincia: comune.provincia
     }
@@ -165,20 +165,20 @@ function callApiForComune (comunePage, seriesCallback, collection) {
  * @returns A list of all the comuni.
  */
 function loadComuneInfo (data) {
-  var comune = {
+  let comune = {
     nome: data.parse.title
   }
 
-  var html = data.parse.text['*']
+  const html = data.parse.text['*']
 
   console.log("Parsing info of '" + comune.nome + "'")
 
-  var $ = cheerio.load(html, cheerioOptions)
+  const $ = cheerio.load(html, cheerioOptions)
   $('table.sinottico > tbody > tr').each(function (index, element) {
-    var th = $(element).find('th')
-    var td = $(element).find('td')
-    var thText = th.text()
-    var tdText = td.text().trim()
+    const th = $(element).find('th')
+    const td = $(element).find('td')
+    const thText = th.text()
+    let tdText = td.text().trim()
 
     if (th.hasClass('sinottico_testata')) {
       comune.tipo = th.find('a').text()
@@ -190,8 +190,8 @@ function loadComuneInfo (data) {
         .text()
         .replace(/(\r\n|\n|\r)/gm, '')
     } else if (td.find('a[title] img').length > 0 && S(td.find('a[title] img')).contains('Stemma')) {
-      var img = td.find('a[title] img')
-      var stemma = img.first().attr('src')
+      const img = td.find('a[title] img')
+      const stemma = img.first().attr('src')
       comune.stemma = S(stemma)
         .left(stemma.lastIndexOf('/'))
         .replaceAll('thumb/', '')
@@ -199,7 +199,7 @@ function loadComuneInfo (data) {
         .s
 
       if (img.length > 1) {
-        var bandiera = img.eq(1).attr('src')
+        const bandiera = img.eq(1).attr('src')
         comune.bandiera = S(bandiera)
           .left(bandiera.lastIndexOf('/'))
           .replaceAll('thumb/', '')
@@ -235,11 +235,11 @@ function loadComuneInfo (data) {
       comune.densita = tdText
     } else if (thText === 'Frazioni') {
       comune.frazioni = []
-      var frazioni = tdText.split(',')
+      const frazioni = tdText.split(',')
       comune.frazioni = frazioni
     } else if (thText === 'Comuni confinanti') {
       comune.comuniConfinanti = []
-      var comuniConfinanti = tdText.split(',')
+      const comuniConfinanti = tdText.split(',')
       comune.comuniConfinanti = comuniConfinanti
     } else if (thText === 'Cod. postale') {
       comune.codicePostale = []
@@ -251,9 +251,9 @@ function loadComuneInfo (data) {
 
       // Multiple case
       if (tdText.length > 5) {
-        var numberPattern = /\d+/g
-        var codiciPostali = tdText.match(numberPattern)
-        var zeros = utils.countLeftZeros(codiciPostali)
+        const numberPattern = /\d+/g
+        const codiciPostali = tdText.match(numberPattern)
+        const zeros = utils.countLeftZeros(codiciPostali)
 
         // console.log(codiciPostali);
         // console.log("Zeros: ", zeros);
@@ -262,7 +262,7 @@ function loadComuneInfo (data) {
         codiciPostali[1] = S(codiciPostali[1]).toInt()
 
         for (; codiciPostali[0] <= codiciPostali[1]; codiciPostali[0]++) {
-          var codiceToInsert = codiciPostali[0]
+          let codiceToInsert = codiciPostali[0]
           codiceToInsert = S(codiceToInsert).ensureLeft(S('0').repeat(zeros).s).s
           comune.codicePostale.push(codiceToInsert)
         }
@@ -309,7 +309,7 @@ function loadComuneInfo (data) {
  */
 function cleanCharacters (comune) {
   Object.keys(comune).forEach(function (key) {
-    var text = comune[key]
+    const text = comune[key]
 
     if (Array.isArray(text) || typeof text === 'object') {
       Object.keys(text).forEach(function (secondKey) {
