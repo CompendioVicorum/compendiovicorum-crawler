@@ -1,9 +1,9 @@
-var chai = require('chai')
-var assert = chai.assert // Using Assert style
-var mocha = require('mocha')
-var describe = mocha.describe
-var it = mocha.it
-var utils = require('../utils')
+const chai = require('chai')
+const assert = chai.assert // Using Assert style
+const mocha = require('mocha')
+const describe = mocha.describe
+const it = mocha.it
+const utils = require('../utils')
 
 describe('Utils', function () {
   it('removeAllAfterParenthesis should remove all the text after the parenthesis', function () {
