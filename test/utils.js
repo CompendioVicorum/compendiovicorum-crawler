@@ -233,6 +233,16 @@ describe('Utils', function () {
         }
         assert.deepEqual(utils.buildSindaco(tdText), expected)
       })
+
+      it('with DD/DD month name YYYY format', function () {
+        const tdText = 'Sergio Finato ([lista civica Bene Comune] - [lista civica Ambiente Comune]) dal 20/21 settembre 2020'
+        const expected = {
+          nome: 'Sergio Finato',
+          partito: '[lista civica Bene Comune] - [lista civica Ambiente Comune]',
+          inizioCarica: '20/09/2020'
+        }
+        assert.deepEqual(utils.buildSindaco(tdText), expected)
+      })
     })
 
     it('of commissario prefettizio', function () {
