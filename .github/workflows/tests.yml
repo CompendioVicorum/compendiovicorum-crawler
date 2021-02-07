@@ -1,0 +1,36 @@
+name: Run tests
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [8.x, 10.x, 11.x, 12.x, 13.x, 14.x]
+
+    steps:
+    - name: Git checkout
+      uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Start MongoDB
+      uses: supercharge/mongodb-github-action@1.3.0
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Standard check
+      run: npm run standard-check
+
+    - name: Run the application
+      run: node app.js
+
+    - name: Run tests
+      run: npm test
+      env:
+        CI: true
