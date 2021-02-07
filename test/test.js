@@ -136,7 +136,7 @@ describe('Compendio Vicorum', function () {
       assert.strictEqual(item.altitudine, '5 m s.l.m.')
       assert.strictEqual(item.superficie, '116,17 km²')
       assert.strictEqual(item.abitanti, '313 257')
-      assert.strictEqual(item.densita, '2 760,87 ab./km²')
+      assert.strictEqual(item.densita, '2 696,54 ab./km²')
       assert.deepEqual(item.comuniConfinanti, expectedComuniConfinanti)
       assert.deepEqual(item.codicePostale, generateAllCodPostaliBetweenTwo(121, 132, '70'))
       assert.strictEqual(item.prefisso, '080')
