@@ -1,6 +1,6 @@
 # compendiovicorum-crawler
 
-[![Build Status][ico-travis]][link-travis]
+[![Build Status][ico-github-actions]][link-github-actions]
 [![Known Vulnerabilities][ico-snyk]][link-snyk]
 [![JavaScript Style Guide][ico-standard]][link-standard]
 
@@ -82,10 +82,10 @@ The structure of insterted documents is this:
 If you have issues, just open one [here](https://github.com/CompendioVicorum/compendiovicorum-crawler/issues).
 
 
-[ico-travis]: https://travis-ci.org/CompendioVicorum/compendiovicorum-crawler.svg?branch=master
+[ico-github-actions]: https://github.com/CompendioVicorum/compendiovicorum-crawler/workflows/Run%20tests/badge.svg?branch=master
 [ico-snyk]: https://snyk.io/test/github/compendiovicorum/compendiovicorum-crawler/badge.svg
 [ico-standard]: https://img.shields.io/badge/code_style-standard-brightgreen.svg
 
-[link-travis]: https://travis-ci.org/CompendioVicorum/compendiovicorum-crawler
+[link-github-actions]: https://github.com/CompendioVicorum/compendiovicorum-crawler/actions?query=workflow%3A%22Run+tests%22
 [link-snyk]: https://snyk.io/test/github/compendiovicorum/compendiovicorum-crawler
 [link-standard]: https://standardjs.com
