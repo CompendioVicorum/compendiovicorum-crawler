@@ -25,7 +25,7 @@ jobs:
       run: npm install
 
     - name: Standard check
-      run: npm install
+      run: npm run standard-check
 
     - name: Run the application
       run: node app.js
