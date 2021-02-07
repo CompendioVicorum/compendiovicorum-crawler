@@ -182,10 +182,10 @@ function findSindacoInizioCarica (string) {
   containingDate = replaceMonthNameWithDigit(containingDate)
   containingDate = containingDate.replace('º', '')
 
-  // Handle bad case: "26-27 5 2019" or "26/27 5 2019"
-  let matches = containingDate.match(/(\d?\d(-|\/)\d?\d) (\d)* (\d\d\d\d)/)
+  // Handle bad case: "26-27 5 2019" or "26/27 5 2019" or "26/27-5-2019"
+  let matches = containingDate.match(/(\d?\d(-|\/)\d?\d)( |-)(\d)*( |-)(\d\d\d\d)/)
   if (matches) {
-    containingDate = S(matches[1]).between('', matches[2]).s + ' ' + matches[3] + ' ' + matches[4]
+    containingDate = S(matches[1]).between('', matches[2]).s + ' ' + matches[4] + ' ' + matches[6]
     containingDate = S(containingDate)
   }
 
@@ -212,7 +212,7 @@ function findSindacoInizioCarica (string) {
   const month = pad(date[1], 2)
   let year = S(date[2]).left(4).s
   if (year.length === 2) {
-    year = new Date().getFullYear().toString().slice(-2) + year
+    year = new Date().getFullYear().toString().substring(0, 2) + year
   }
   return day + '/' + month + '/' + year
 }

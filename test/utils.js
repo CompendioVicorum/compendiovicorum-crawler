@@ -243,6 +243,16 @@ describe('Utils', function () {
         }
         assert.deepEqual(utils.buildSindaco(tdText), expected)
       })
+
+      it('with DD/DD-MM-YYYY format', function () {
+        const tdText = 'Claudio Mimiola (centro-sinistra) dal 20/21-09-2020'
+        const expected = {
+          nome: 'Claudio Mimiola',
+          partito: 'centro-sinistra',
+          inizioCarica: '20/09/2020'
+        }
+        assert.deepEqual(utils.buildSindaco(tdText), expected)
+      })
     })
 
     it('of commissario prefettizio', function () {
