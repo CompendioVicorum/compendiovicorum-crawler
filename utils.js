@@ -23,7 +23,7 @@ exports.countLeftZeros = function countLeftZeros (input) {
  * @returns The string without the content after the parenthesis.
  */
 exports.removeAllAfterParenthesis = function removeAllAfterParenthesis (input) {
-  return S(input).left(input.indexOf(' (')).s
+  return v.first(input, input.indexOf(' ('))
 }
 
 /**
@@ -211,7 +211,7 @@ function findSindacoInizioCarica (string) {
   const date = containingDate.splitLeft('-')
   const day = pad(date[0], 2)
   const month = pad(date[1], 2)
-  let year = S(date[2]).left(4).s
+  let year = v.first(date[2], 4)
   if (year.length === 2) {
     year = new Date().getFullYear().toString().substring(0, 2) + year
   }
