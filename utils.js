@@ -10,8 +10,8 @@ exports.countLeftZeros = function countLeftZeros (input) {
   let zeros = 0
   if (input.length > 1) {
     while (v.startsWith(input[0], 0) && v.startsWith(input[1], 0)) {
-      input[0] = v.trimLeft(input[0], '0');
-      input[1] = v.trimLeft(input[1], '0');
+      input[0] = v.trimLeft(input[0], '0')
+      input[1] = v.trimLeft(input[1], '0')
       zeros++
     }
   }
@@ -89,7 +89,7 @@ function findSindacoNome (string) {
   if (!v.includes(string, ' dal')) {
     return string
   }
-  let sindacoName = v.first(string, v.indexOf(string, ' dal'));
+  let sindacoName = v.first(string, v.indexOf(string, ' dal'))
   if (v.includes(sindacoName, '(')) {
     sindacoName = exports.removeAllAfterParenthesis(sindacoName)
   }
