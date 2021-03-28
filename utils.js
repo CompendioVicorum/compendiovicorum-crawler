@@ -1,4 +1,5 @@
 const S = require('string')
+const v = require('voca')
 
 /**
  * Count the number of the left zeros.
@@ -8,9 +9,9 @@ const S = require('string')
 exports.countLeftZeros = function countLeftZeros (input) {
   let zeros = 0
   if (input.length > 1) {
-    while (S(input[0]).startsWith(0) && S(input[1]).startsWith(0)) {
-      input[0] = S(input[0]).chompLeft('0').s
-      input[1] = S(input[1]).chompLeft('0').s
+    while (v.startsWith(input[0], 0) && v.startsWith(input[1], 0)) {
+      input[0] = v.trimLeft(input[0], '0');
+      input[1] = v.trimLeft(input[1], '0');
       zeros++
     }
   }
@@ -85,11 +86,11 @@ function pad (n, width, z) {
  * @returns Returns the sindaco name.
  */
 function findSindacoNome (string) {
-  if (!S(string).contains(' dal')) {
+  if (!v.includes(string, ' dal')) {
     return string
   }
-  let sindacoName = S(string).between('', ' dal').s
-  if (S(sindacoName).contains('(')) {
+  let sindacoName = v.first(string, v.indexOf(string, ' dal'));
+  if (v.includes(sindacoName, '(')) {
     sindacoName = exports.removeAllAfterParenthesis(sindacoName)
   }
   return sindacoName
@@ -165,11 +166,11 @@ function replaceMonthNameWithDigit (string) {
 function findSindacoInizioCarica (string) {
   const contentWithoutParenthesis = exports.removeParenthesis(string)
   let stringBeforeDate = 'dal '
-  if (S(contentWithoutParenthesis).contains('dall\'')) {
+  if (v.includes(contentWithoutParenthesis, 'dall\'')) {
     stringBeforeDate = 'dall\''
   }
 
-  if (!S(contentWithoutParenthesis).contains(stringBeforeDate)) {
+  if (!v.includes(contentWithoutParenthesis, stringBeforeDate)) {
     return ''
   }
 

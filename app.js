@@ -2,6 +2,7 @@ const Bot = require('nodemw')
 const async = require('async')
 const cheerio = require('cheerio')
 const S = require('string')
+const v = require('voca')
 const MongoClient = require('mongodb').MongoClient
 
 const config = require('./config')
@@ -189,7 +190,7 @@ function loadComuneInfo (data) {
         .end()
         .text()
         .replace(/(\r\n|\n|\r)/gm, '')
-    } else if (td.find('a[title] img').length > 0 && S(td.find('a[title] img')).contains('Stemma')) {
+    } else if (td.find('a[title] img').length > 0 && v.includes(td.find('a[title] img'), 'Stemma')) {
       const img = td.find('a[title] img')
       const stemma = img.first().attr('src')
       comune.stemma = S(stemma)
@@ -258,12 +259,12 @@ function loadComuneInfo (data) {
         // console.log(codiciPostali);
         // console.log("Zeros: ", zeros);
 
-        codiciPostali[0] = S(codiciPostali[0]).toInt()
-        codiciPostali[1] = S(codiciPostali[1]).toInt()
+        codiciPostali[0] = parseInt(codiciPostali[0])
+        codiciPostali[1] = parseInt(codiciPostali[1])
 
         for (; codiciPostali[0] <= codiciPostali[1]; codiciPostali[0]++) {
           let codiceToInsert = codiciPostali[0]
-          codiceToInsert = S(codiceToInsert).ensureLeft(S('0').repeat(zeros).s).s
+          codiceToInsert = S(codiceToInsert).ensureLeft(v.repeat('0', zeros)).s
           comune.codicePostale.push(codiceToInsert)
         }
       } else {
@@ -313,7 +314,7 @@ function cleanCharacters (comune) {
 
     if (Array.isArray(text) || typeof text === 'object') {
       Object.keys(text).forEach(function (secondKey) {
-        if (!S(comune[key][secondKey]).isNumeric()) {
+        if (!v.isNumeric(comune[key][secondKey])) {
           comune[key][secondKey] = comune[key][secondKey].trim()
           comune[key][secondKey] = utils.removeBrackets(comune[key][secondKey])
         }
