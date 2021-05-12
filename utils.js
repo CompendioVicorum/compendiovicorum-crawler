@@ -1,4 +1,3 @@
-const S = require('string')
 const v = require('voca')
 
 /**
@@ -176,41 +175,40 @@ function findSindacoInizioCarica (string) {
     return ''
   }
 
-  let containingDate = S(contentWithoutParenthesis).between(stringBeforeDate)
+  let containingDate = v.substring(contentWithoutParenthesis, v.indexOf(contentWithoutParenthesis, stringBeforeDate))
 
-  if (containingDate.contains(' riconfermato')) {
-    containingDate = containingDate.left(containingDate.indexOf(' riconfermato'))
+  if (v.includes(containingDate, ' riconfermato')) {
+    containingDate = v.substring(containingDate, 0, v.indexOf(containingDate, ' riconfermato'))
   }
 
   containingDate = replaceMonthNameWithDigit(containingDate)
-  containingDate = containingDate.replace('º', '')
+  containingDate = v.replace(containingDate, 'º', '')
 
   // Handle bad case: "26-27 5 2019" or "26/27 5 2019" or "26/27-5-2019"
   let matches = containingDate.match(/(\d?\d(-|\/)\d?\d)( |-)(\d)*( |-)(\d\d\d\d)/)
   if (matches) {
-    containingDate = S(matches[1]).between('', matches[2]).s + ' ' + matches[4] + ' ' + matches[6]
-    containingDate = S(containingDate)
+    containingDate = v.first(matches[1], v.indexOf(matches[1], matches[2])) + ' ' + matches[4] + ' ' + matches[6]
   }
 
   const regex = /((\d?\d)(\/|-| |\.)(\d?\d)(\/|-| |\.)(\d?\d?\d\d)|(\d?\d)(\/|-| |\.)(\d?\d?\d\d)|(\d\d\d\d))/
-  matches = regex.exec(containingDate.s)
+  matches = regex.exec(containingDate)
 
   if (matches === null) {
     return ''
   } else {
     if (matches[2] && matches[4] && matches[6]) {
       // DD-MM-YYYY
-      containingDate = S(matches[2] + '-' + matches[4] + '-' + matches[6])
+      containingDate = matches[2] + '-' + matches[4] + '-' + matches[6]
     } else if (matches[7] && matches[9]) {
       // MM-YYYY
-      containingDate = S('01-' + matches[7] + '-' + matches[9])
+      containingDate = '01-' + matches[7] + '-' + matches[9]
     } else if (matches[10]) {
       // YYYY
-      containingDate = S('01-01-' + matches[10])
+      containingDate = '01-01-' + matches[10]
     }
   }
 
-  const date = containingDate.splitLeft('-')
+  const date = v.split(containingDate, '-')
   const day = pad(date[0], 2)
   const month = pad(date[1], 2)
   let year = v.first(date[2], 4)
@@ -269,11 +267,11 @@ exports.buildCodiciPostali = function buildCodiciPostali (string) {
     const codiciPostali = string.match(numberPattern)
     const zeros = countLeftZeros(codiciPostali)
 
-    // console.log(codiciPostali);
-    console.log('Zeros: ', zeros)
+    // console.log(codiciPostali)
+    // console.log('Zeros: ', zeros)
 
-    codiciPostali[0] = parseInt(codiciPostali[0]) // 70121 - 00118
-    codiciPostali[1] = parseInt(codiciPostali[1]) // 70132 - 00199
+    codiciPostali[0] = parseInt(codiciPostali[0])
+    codiciPostali[1] = parseInt(codiciPostali[1])
 
     for (; codiciPostali[0] <= codiciPostali[1]; codiciPostali[0]++) {
       let codiceToInsert = codiciPostali[0]

@@ -10,7 +10,6 @@
     "mongodb": "^3.1.13",
     "nodemw": "^0.7.5",
     "snyk": "^1.317.0",
-    "string": "^3.0.0",
     "voca": "^1.4.0"
   },
   "devDependencies": {
