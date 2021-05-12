@@ -285,4 +285,25 @@ describe('Utils', function () {
       assert.deepEqual(utils.buildSindaco(tdText), expected)
     })
   })
+
+  it('buildImgUrl should build the img url from the given string', function () {
+    assert.strictEqual(utils.buildImgUrl('//upload.wikimedia.org/wikipedia/commons/thumb/f/f7/CoA_Citt%C3%A0_di_Bari.svg/80px-CoA_Citt%C3%A0_di_Bari.svg.png'), 'https://upload.wikimedia.org/wikipedia/commons/f/f7/CoA_Citt%C3%A0_di_Bari.svg')
+    assert.strictEqual(utils.buildImgUrl('//upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Flag_of_Bari.svg/125px-Flag_of_Bari.svg.png'), 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Flag_of_Bari.svg')
+  })
+
+  describe('buildCodiciPostali should build the codici postali array from the given string', function () {
+    it('with a single codice postale', function () {
+      assert.deepEqual(utils.buildCodiciPostali('70032\n'), ['70032'])
+    })
+
+    describe('with multiple codice postali', function () {
+      it('not zero-based', function () {
+        assert.deepEqual(utils.buildCodiciPostali('70121–70132\n'), utils.generateAllCodPostaliBetweenTwo(121, 132, '70'))
+      })
+
+      it('zero-based', function () {
+        assert.deepEqual(utils.buildCodiciPostali('00118–00199\n'), utils.generateAllCodPostaliBetweenTwo(118, 199))
+      })
+    })
+  })
 })

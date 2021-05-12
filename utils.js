@@ -6,12 +6,12 @@ const v = require('voca')
  * @param input The strings that contain the number of zero to count.
  * @returns The number of the left zero of the input strings.
  */
-exports.countLeftZeros = function countLeftZeros (input) {
+function countLeftZeros (input) {
   let zeros = 0
   if (input.length > 1) {
     while (v.startsWith(input[0], 0) && v.startsWith(input[1], 0)) {
-      input[0] = v.trimLeft(input[0], '0')
-      input[1] = v.trimLeft(input[1], '0')
+      input[0] = v.substring(input[0], 1)
+      input[1] = v.substring(input[1], 1)
       zeros++
     }
   }
@@ -22,9 +22,11 @@ exports.countLeftZeros = function countLeftZeros (input) {
  * Remove all the characters after the parenthesis.
  * @returns The string without the content after the parenthesis.
  */
-exports.removeAllAfterParenthesis = function removeAllAfterParenthesis (input) {
+function removeAllAfterParenthesis (input) {
   return v.first(input, input.indexOf(' ('))
 }
+
+exports.removeAllAfterParenthesis = removeAllAfterParenthesis
 
 /**
  * Get the content in the parenthesis.
@@ -230,4 +232,66 @@ exports.buildSindaco = function buildSindaco (string) {
     partito: exports.getParenthesisContent(string),
     inizioCarica: findSindacoInizioCarica(string)
   }
+}
+
+/**
+ * Build the img url from the input string.
+ * @param string The string from which build the img url.
+ * @returns Returns the img url.
+ */
+exports.buildImgUrl = function buildImgUrl (string) {
+  let stemma = v.first(string, string.lastIndexOf('/'))
+  stemma = v.replaceAll(stemma, 'thumb/', '')
+
+  if (!v.startsWith(stemma, 'https:')) {
+    stemma = 'https:' + stemma
+  }
+
+  return stemma
+}
+
+/**
+ * Build codici postali array from the input string.
+ * @param string The string from which build codici postali array.
+ * @returns Returns codici postali array.
+ */
+exports.buildCodiciPostali = function buildCodiciPostali (string) {
+  const codiciPostaliArray = []
+  if (string.match(/\(/g)) {
+    // Remove parenthesis if the string contains them
+    string = removeAllAfterParenthesis(string)
+  }
+  string = string.trim()
+
+  // Multiple case
+  if (string.length > 5) {
+    const numberPattern = /\d+/g
+    const codiciPostali = string.match(numberPattern)
+    const zeros = countLeftZeros(codiciPostali)
+
+    // console.log(codiciPostali);
+    console.log('Zeros: ', zeros)
+
+    codiciPostali[0] = parseInt(codiciPostali[0]) // 70121 - 00118
+    codiciPostali[1] = parseInt(codiciPostali[1]) // 70132 - 00199
+
+    for (; codiciPostali[0] <= codiciPostali[1]; codiciPostali[0]++) {
+      let codiceToInsert = codiciPostali[0]
+      codiceToInsert = v.repeat('0', zeros) + codiceToInsert
+      codiciPostaliArray.push(codiceToInsert)
+    }
+  } else {
+    codiciPostaliArray.push(string)
+  }
+
+  return codiciPostaliArray
+}
+
+exports.generateAllCodPostaliBetweenTwo = function (start, end, prefix = '00') {
+  const output = []
+  for (; start <= end; start++) {
+    output.push(prefix + start)
+  }
+
+  return output
 }
