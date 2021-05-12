@@ -1,16 +1,16 @@
-const S = require('string')
+const v = require('voca')
 
 /**
  * Count the number of the left zeros.
  * @param input The strings that contain the number of zero to count.
  * @returns The number of the left zero of the input strings.
  */
-exports.countLeftZeros = function countLeftZeros (input) {
+function countLeftZeros (input) {
   let zeros = 0
   if (input.length > 1) {
-    while (S(input[0]).startsWith(0) && S(input[1]).startsWith(0)) {
-      input[0] = S(input[0]).chompLeft('0').s
-      input[1] = S(input[1]).chompLeft('0').s
+    while (v.startsWith(input[0], 0) && v.startsWith(input[1], 0)) {
+      input[0] = v.substring(input[0], 1)
+      input[1] = v.substring(input[1], 1)
       zeros++
     }
   }
@@ -21,9 +21,11 @@ exports.countLeftZeros = function countLeftZeros (input) {
  * Remove all the characters after the parenthesis.
  * @returns The string without the content after the parenthesis.
  */
-exports.removeAllAfterParenthesis = function removeAllAfterParenthesis (input) {
-  return S(input).left(input.indexOf(' (')).s
+function removeAllAfterParenthesis (input) {
+  return v.first(input, input.indexOf(' ('))
 }
+
+exports.removeAllAfterParenthesis = removeAllAfterParenthesis
 
 /**
  * Get the content in the parenthesis.
@@ -85,11 +87,11 @@ function pad (n, width, z) {
  * @returns Returns the sindaco name.
  */
 function findSindacoNome (string) {
-  if (!S(string).contains(' dal')) {
+  if (!v.includes(string, ' dal')) {
     return string
   }
-  let sindacoName = S(string).between('', ' dal').s
-  if (S(sindacoName).contains('(')) {
+  let sindacoName = v.first(string, v.indexOf(string, ' dal'))
+  if (v.includes(sindacoName, '(')) {
     sindacoName = exports.removeAllAfterParenthesis(sindacoName)
   }
   return sindacoName
@@ -165,52 +167,51 @@ function replaceMonthNameWithDigit (string) {
 function findSindacoInizioCarica (string) {
   const contentWithoutParenthesis = exports.removeParenthesis(string)
   let stringBeforeDate = 'dal '
-  if (S(contentWithoutParenthesis).contains('dall\'')) {
+  if (v.includes(contentWithoutParenthesis, 'dall\'')) {
     stringBeforeDate = 'dall\''
   }
 
-  if (!S(contentWithoutParenthesis).contains(stringBeforeDate)) {
+  if (!v.includes(contentWithoutParenthesis, stringBeforeDate)) {
     return ''
   }
 
-  let containingDate = S(contentWithoutParenthesis).between(stringBeforeDate)
+  let containingDate = v.substring(contentWithoutParenthesis, v.indexOf(contentWithoutParenthesis, stringBeforeDate))
 
-  if (containingDate.contains(' riconfermato')) {
-    containingDate = containingDate.left(containingDate.indexOf(' riconfermato'))
+  if (v.includes(containingDate, ' riconfermato')) {
+    containingDate = v.substring(containingDate, 0, v.indexOf(containingDate, ' riconfermato'))
   }
 
   containingDate = replaceMonthNameWithDigit(containingDate)
-  containingDate = containingDate.replace('º', '')
+  containingDate = v.replace(containingDate, 'º', '')
 
   // Handle bad case: "26-27 5 2019" or "26/27 5 2019" or "26/27-5-2019"
   let matches = containingDate.match(/(\d?\d(-|\/)\d?\d)( |-)(\d)*( |-)(\d\d\d\d)/)
   if (matches) {
-    containingDate = S(matches[1]).between('', matches[2]).s + ' ' + matches[4] + ' ' + matches[6]
-    containingDate = S(containingDate)
+    containingDate = v.first(matches[1], v.indexOf(matches[1], matches[2])) + ' ' + matches[4] + ' ' + matches[6]
   }
 
   const regex = /((\d?\d)(\/|-| |\.)(\d?\d)(\/|-| |\.)(\d?\d?\d\d)|(\d?\d)(\/|-| |\.)(\d?\d?\d\d)|(\d\d\d\d))/
-  matches = regex.exec(containingDate.s)
+  matches = regex.exec(containingDate)
 
   if (matches === null) {
     return ''
   } else {
     if (matches[2] && matches[4] && matches[6]) {
       // DD-MM-YYYY
-      containingDate = S(matches[2] + '-' + matches[4] + '-' + matches[6])
+      containingDate = matches[2] + '-' + matches[4] + '-' + matches[6]
     } else if (matches[7] && matches[9]) {
       // MM-YYYY
-      containingDate = S('01-' + matches[7] + '-' + matches[9])
+      containingDate = '01-' + matches[7] + '-' + matches[9]
     } else if (matches[10]) {
       // YYYY
-      containingDate = S('01-01-' + matches[10])
+      containingDate = '01-01-' + matches[10]
     }
   }
 
-  const date = containingDate.splitLeft('-')
+  const date = v.split(containingDate, '-')
   const day = pad(date[0], 2)
   const month = pad(date[1], 2)
-  let year = S(date[2]).left(4).s
+  let year = v.first(date[2], 4)
   if (year.length === 2) {
     year = new Date().getFullYear().toString().substring(0, 2) + year
   }
@@ -229,4 +230,66 @@ exports.buildSindaco = function buildSindaco (string) {
     partito: exports.getParenthesisContent(string),
     inizioCarica: findSindacoInizioCarica(string)
   }
+}
+
+/**
+ * Build the img url from the input string.
+ * @param string The string from which build the img url.
+ * @returns Returns the img url.
+ */
+exports.buildImgUrl = function buildImgUrl (string) {
+  let stemma = v.first(string, string.lastIndexOf('/'))
+  stemma = v.replaceAll(stemma, 'thumb/', '')
+
+  if (!v.startsWith(stemma, 'https:')) {
+    stemma = 'https:' + stemma
+  }
+
+  return stemma
+}
+
+/**
+ * Build codici postali array from the input string.
+ * @param string The string from which build codici postali array.
+ * @returns Returns codici postali array.
+ */
+exports.buildCodiciPostali = function buildCodiciPostali (string) {
+  const codiciPostaliArray = []
+  if (string.match(/\(/g)) {
+    // Remove parenthesis if the string contains them
+    string = removeAllAfterParenthesis(string)
+  }
+  string = string.trim()
+
+  // Multiple case
+  if (string.length > 5) {
+    const numberPattern = /\d+/g
+    const codiciPostali = string.match(numberPattern)
+    const zeros = countLeftZeros(codiciPostali)
+
+    // console.log(codiciPostali)
+    // console.log('Zeros: ', zeros)
+
+    codiciPostali[0] = parseInt(codiciPostali[0])
+    codiciPostali[1] = parseInt(codiciPostali[1])
+
+    for (; codiciPostali[0] <= codiciPostali[1]; codiciPostali[0]++) {
+      let codiceToInsert = codiciPostali[0]
+      codiceToInsert = v.repeat('0', zeros) + codiceToInsert
+      codiciPostaliArray.push(codiceToInsert)
+    }
+  } else {
+    codiciPostaliArray.push(string)
+  }
+
+  return codiciPostaliArray
+}
+
+exports.generateAllCodPostaliBetweenTwo = function (start, end, prefix = '00') {
+  const output = []
+  for (; start <= end; start++) {
+    output.push(prefix + start)
+  }
+
+  return output
 }

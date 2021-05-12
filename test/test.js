@@ -7,6 +7,7 @@ const before = mocha.before
 const after = mocha.after
 const MongoClient = require('mongodb').MongoClient
 const config = require('../config')
+const utils = require('../utils')
 
 // Connection URL
 const mongodb = config.mongodb
@@ -18,15 +19,6 @@ if (mongodb.auth) {
 }
 
 url += mongodb.server + ':' + mongodb.port
-
-function generateAllCodPostaliBetweenTwo (start, end, prefix = '00') {
-  const output = []
-  for (; start <= end; start++) {
-    output.push(prefix + start)
-  }
-
-  return output
-}
 
 let collection
 let mongoClient
@@ -110,7 +102,7 @@ describe('Compendio Vicorum', function () {
   it('should retrieve codicePostale information of Roma', function (done) {
     collection.findOne({ nome: 'Roma' }, function (err, item) {
       assert.strictEqual(err, null)
-      assert.deepEqual(item.codicePostale, generateAllCodPostaliBetweenTwo(118, 199))
+      assert.deepEqual(item.codicePostale, utils.generateAllCodPostaliBetweenTwo(118, 199))
       done()
     })
   })
@@ -138,7 +130,7 @@ describe('Compendio Vicorum', function () {
       assert.strictEqual(item.abitanti, '313 003')
       assert.strictEqual(item.densita, '2 694,35 ab./km²')
       assert.deepEqual(item.comuniConfinanti, expectedComuniConfinanti)
-      assert.deepEqual(item.codicePostale, generateAllCodPostaliBetweenTwo(121, 132, '70'))
+      assert.deepEqual(item.codicePostale, utils.generateAllCodPostaliBetweenTwo(121, 132, '70'))
       assert.strictEqual(item.prefisso, '080')
       assert.strictEqual(item.fusoOrario, 'UTC+1')
       assert.strictEqual(item.codiceIstat, '072006')

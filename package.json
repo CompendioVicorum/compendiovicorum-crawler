@@ -9,8 +9,8 @@
     "cheerio": "^0.20.0",
     "mongodb": "^3.1.13",
     "nodemw": "^0.12.2",
-    "string": "^3.0.0",
-    "snyk": "^1.317.0"
+    "snyk": "^1.317.0",
+    "voca": "^1.4.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
