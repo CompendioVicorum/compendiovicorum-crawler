@@ -140,7 +140,7 @@ describe('Compendio Vicorum', function () {
       assert.strictEqual(item.classificazioneClimatica, 'zona C, 1 185 GG')
       assert.strictEqual(item.nomeAbitanti, 'baresi')
       assert.strictEqual(item.patrono, 'san Nicola, san Sabino (compatrono), Madonna Odigitria')
-      assert.strictEqual(item.giornoFestivo, '8 maggio - San Nicola')
+      assert.strictEqual(item.giornoFestivo, '8 maggio - san Nicola')
       assert.strictEqual(item.sitoIstituzionale, 'http://www.comune.bari.it')
       done()
     })
