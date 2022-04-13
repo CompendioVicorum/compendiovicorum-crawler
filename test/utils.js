@@ -234,6 +234,16 @@ describe('Utils', function () {
         assert.deepEqual(utils.buildSindaco(tdText), expected)
       })
 
+      it('with D-D month name YYYY format', function () {
+        const tdText = 'Gian Mario Trapletti (lista civica) dal 3-4 ottobre 2021'
+        const expected = {
+          nome: 'Gian Mario Trapletti',
+          partito: 'lista civica',
+          inizioCarica: '03/10/2021'
+        }
+        assert.deepEqual(utils.buildSindaco(tdText), expected)
+      })
+
       it('with DD/DD month name YYYY format', function () {
         const tdText = 'Sergio Finato ([lista civica Bene Comune] - [lista civica Ambiente Comune]) dal 20/21 settembre 2020'
         const expected = {
