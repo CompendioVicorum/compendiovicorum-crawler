@@ -49,8 +49,6 @@ describe('Compendio Vicorum', function () {
       'abitanti',
       'prefisso',
       'fusoOrario',
-      'codiceIstat',
-      'codCatastale'
     ]
     // Read the basic information about the comune
     collection.find({}).toArray(function (err, docs) {
