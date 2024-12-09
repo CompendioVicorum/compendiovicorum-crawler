@@ -114,19 +114,18 @@ describe('Compendio Vicorum', function () {
       assert.strictEqual(item.stemma, 'https://upload.wikimedia.org/wikipedia/commons/e/e1/Bari-Stemma.svg')
       assert.strictEqual(item.bandiera, 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Flag_of_Bari.svg')
       const expectedSindaco = {
-        nome: 'Antonio Decaro',
+        nome: 'Vito Leccese',
         partito: 'PD',
-        inizioCarica: '23/06/2014'
+        inizioCarica: '09/07/2024'
       }
       const expectedComuniConfinanti = ['Adelfia', 'Bitonto', 'Bitritto', 'Capurso', 'Giovinazzo', 'Modugno', 'Mola di Bari', 'Noicattaro', 'Triggiano', 'Valenzano']
       assert.deepEqual(item.sindaco, expectedSindaco)
-      assert.strictEqual(item.dataIstituzione, '19 gennaio 1863')
       assert.strictEqual(item.latitudine, '41°07′31″N')
       assert.strictEqual(item.longitudine, '16°52′00″E')
       assert.strictEqual(item.altitudine, '5 m s.l.m.')
       assert.strictEqual(item.superficie, '116,17 km²')
-      assert.strictEqual(item.abitanti, '315 693')
-      assert.strictEqual(item.densita, '2 717,51 ab./km²')
+      assert.strictEqual(item.abitanti, '315 270')
+      assert.strictEqual(item.densita, '2 713,87 ab./km²')
       assert.deepEqual(item.comuniConfinanti, expectedComuniConfinanti)
       assert.deepEqual(item.codicePostale, utils.generateAllCodPostaliBetweenTwo(121, 132, '70'))
       assert.strictEqual(item.prefisso, '080')
@@ -136,9 +135,9 @@ describe('Compendio Vicorum', function () {
       assert.strictEqual(item.targa, 'BA')
       assert.strictEqual(item.classificazioneSismica, 'zona 3 (sismicità bassa)')
       assert.strictEqual(item.classificazioneClimatica, 'zona C, 1 185 GG')
-      assert.strictEqual(item.nomeAbitanti, 'Baresi')
-      assert.strictEqual(item.patrono, 'san Nicola, san Sabino (compatrono), Madonna Odigitria')
-      assert.strictEqual(item.giornoFestivo, '8 maggio - san Nicola')
+      assert.strictEqual(item.nomeAbitanti, 'baresi')
+      assert.strictEqual(item.patrono, 'san Nicola')
+      assert.strictEqual(item.giornoFestivo, '8 maggio')
       assert.strictEqual(item.sitoIstituzionale, 'http://www.comune.bari.it')
       done()
     })
