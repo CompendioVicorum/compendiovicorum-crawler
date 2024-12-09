@@ -114,9 +114,9 @@ describe('Compendio Vicorum', function () {
       assert.strictEqual(item.stemma, 'https://upload.wikimedia.org/wikipedia/commons/e/e1/Bari-Stemma.svg')
       assert.strictEqual(item.bandiera, 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Flag_of_Bari.svg')
       const expectedSindaco = {
-        nome: 'Antonio Decaro',
+        nome: 'Vito Leccese',
         partito: 'PD',
-        inizioCarica: '23/06/2014'
+        inizioCarica: '09/07/2024',
       }
       const expectedComuniConfinanti = ['Adelfia', 'Bitonto', 'Bitritto', 'Capurso', 'Giovinazzo', 'Modugno', 'Mola di Bari', 'Noicattaro', 'Triggiano', 'Valenzano']
       assert.deepEqual(item.sindaco, expectedSindaco)
