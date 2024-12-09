@@ -116,7 +116,7 @@ describe('Compendio Vicorum', function () {
       const expectedSindaco = {
         nome: 'Vito Leccese',
         partito: 'PD',
-        inizioCarica: '09/07/2024',
+        inizioCarica: '09/07/2024'
       }
       const expectedComuniConfinanti = ['Adelfia', 'Bitonto', 'Bitritto', 'Capurso', 'Giovinazzo', 'Modugno', 'Mola di Bari', 'Noicattaro', 'Triggiano', 'Valenzano']
       assert.deepEqual(item.sindaco, expectedSindaco)
