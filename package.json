@@ -6,7 +6,7 @@
   "main": "app.js",
   "dependencies": {
     "async": "^3.2.2",
-    "cheerio": "^0.22.0",
+    "cheerio": "^1.0.0",
     "mongodb": "^3.1.13",
     "nodemw": "^0.14.0",
     "snyk": "^1.317.0",
