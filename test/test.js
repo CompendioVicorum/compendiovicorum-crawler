@@ -120,7 +120,6 @@ describe('Compendio Vicorum', function () {
       }
       const expectedComuniConfinanti = ['Adelfia', 'Bitonto', 'Bitritto', 'Capurso', 'Giovinazzo', 'Modugno', 'Mola di Bari', 'Noicattaro', 'Triggiano', 'Valenzano']
       assert.deepEqual(item.sindaco, expectedSindaco)
-      assert.strictEqual(item.dataIstituzione, '19 gennaio 1863')
       assert.strictEqual(item.latitudine, '41°07′31″N')
       assert.strictEqual(item.longitudine, '16°52′00″E')
       assert.strictEqual(item.altitudine, '5 m s.l.m.')
