@@ -5,8 +5,9 @@
   "repository": "CompendioVicorum/compendiovicorum-crawler",
   "main": "app.js",
   "dependencies": {
+    "@snyk/protect": "^1.657.0",
     "async": "^3.2.2",
-    "cheerio": "^0.22.0",
+    "cheerio": "^1.0.0",
     "mongodb": "^3.1.13",
     "nodemw": "^0.14.0",
     "snyk": "^1.317.0",
@@ -21,7 +22,9 @@
     "name": "Davide Pastore",
     "email": "pasdavide@gmail.com"
   },
-  "engine": "node >= 0.10",
+  "engines" : {
+    "node" : ">=20.18.1"
+  },
   "files": [
     "LICENSE",
     "README.md",
@@ -31,7 +34,8 @@
   ],
   "license": "GPL-2.0",
   "scripts": {
-    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect",
     "prepublish": "npm run snyk-protect",
     "test": "standard && mocha",
     "standard-check": "standard"

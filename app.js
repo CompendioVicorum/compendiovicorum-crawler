@@ -7,7 +7,7 @@ const MongoClient = require('mongodb').MongoClient
 const config = require('./config')
 const utils = require('./utils')
 const cheerioOptions = {
-  normalizeWhitespace: true
+  decodeEntities: true
 }
 
 // Create a client with configuration
@@ -75,7 +75,11 @@ MongoClient.connect(url, function (err, client) {
             return
           }
 
-          const $ = cheerio.load(data.parse.text['*'], cheerioOptions)
+          const $ = cheerio.load(data.parse.text['*'], {
+            xml: {
+              cheerioOptions
+            }
+          })
 
           // Convert to a normal array
           const tr = []
