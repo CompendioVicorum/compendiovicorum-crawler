@@ -22,7 +22,9 @@
     "name": "Davide Pastore",
     "email": "pasdavide@gmail.com"
   },
-  "engine": "node >= 0.10",
+  "engines" : {
+    "node" : ">=18.0.0"
+  },
   "files": [
     "LICENSE",
     "README.md",
