@@ -75,7 +75,11 @@ MongoClient.connect(url, function (err, client) {
             return
           }
 
-          const $ = cheerio.load(data.parse.text['*'], cheerioOptions)
+          const $ = cheerio.load(data.parse.text['*'], {
+            xml: {
+              cheerioOptions
+            },
+          })
 
           // Convert to a normal array
           const tr = []
